@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<title>Unpairing Latch</title>
+		<link rel="stylesheet" type="text/css" href="/jira/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/css/unpair.css">
+	</head>
+	<body>
+
+		<div id="container">
+		
+			<div id="titulo">
+		    	<h2>Your account is protected with Latch</h2>
+		    </div>
+
+		    <div id="errorLatch">
+		    	<span>$action.getError()</span>
+		    </div>
+		    
+		    <div id="queEs" class="texts">
+				<p>To stop using Latch to add an extra security to this account, you just have to unpair your account. After unpairing, this service will be removed from your Latch mobile app. To proceed, press the button below.</p>
+		    </div>
+		
+			<form id="admin" class="aui" method="POST">
+	        	<div class="field-group">
+	            	<input type="submit" name="button" value="Unpair your Latch account" class="button">
+	       		</div>
+	    	</form>
+		</div>
+	</body>
+</html>

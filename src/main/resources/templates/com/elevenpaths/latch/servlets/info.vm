@@ -1,0 +1,94 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Latch Information</title>
+<link rel="stylesheet" type="text/css" href="/jira/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/css/info.css">
+</head>
+<body>
+	<div id="container">
+	
+		<div id="titulo">
+	    	<h2>Your account is not protected yet</h2>
+	    </div>
+	    
+	    <form method="POST">
+	    	<input type="submit" value="Protect your account with Latch" id="buttonToPair">
+	    </form>
+	    
+	    <div id="queEs" class="texts">
+	    	<p class="tituloTextos"><strong>What is Latch?</strong></p>
+			<p>Would you like to have your credit card or online bank account active just when you use it to reduce the time it is exposed to fraudulent use? Do you want to switch off your social network accounts when you are offline to prevent any unauthorized use?</p>
+			<p>Do it with Latch now! It also lets you handily schedule automatic downtimes, for instance at nights or when on vacation, to systematically secure your accounts in an unattended way.</p>
+			<p>The Latch monitor lets you track the access to your paired accounts and shows you an alert any time there's an attempt to access one of your locked accounts.</p>
+	    </div>
+	    
+	    <table id="tabla">
+	    	<tr>
+		    	<td>
+			    	<div id="imagen1" class="imagenes">
+			    		<div id="foto1" class="fotos">
+			    			<img id="img1" class="img" src="/jira/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/img1-large.png" alt="Get back control of your digital identity" title="Get back control of your digital identity">
+			    		</div>
+			    		<div id="texto1">
+			    			<div id="titulo1" class="titulos">
+			    				Get back control of your digital identity
+			    			</div>
+			    			<div class="textos">
+			    				Switch off your digital accounts when you are not using them to prevent any unauthorized use.
+			    			</div>
+			    		</div>
+			    	</div>
+	    		</td>
+		    	<td>
+		    		<div id="imagen2" class="imagenes">
+			    		<div id="foto2" class="fotos">
+			    			<img id="img2" class="img" src="/jira/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/img2-large.png" alt="Get an extra security level on your accounts" title="Get an extra security level on your accounts">
+			    		</div>
+			    		<div id="texto2">
+			    			<div id="titulo2" class="titulos">
+			    				Get an extra security level on your accounts
+			    			</div>
+			    			<div class="textos">
+			    				Pair your Latch-enabled digital services from their web site.
+			    			</div>
+			    		</div>
+			    	</div>
+		    	</td>
+	    	</tr>
+	    	<tr>
+		    	<td>
+		    		<div id="imagen3" class="imagenes">
+			    		<div id="foto3" class="fotos">
+			    			<img id="img3" class="img" src="/jira/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/img4-large.png" alt="OFF-time automatic schedule" title="OFF-time automatic schedule">
+			    		</div>
+			    		<div id="texto3">
+			    			<div id="titulo3" class="titulos">
+			    				OFF-time automatic schedule
+			    			</div>
+			    			<div class="textos">
+			    				Easily schedule the automatic disconnection of your accounts at night or custom times and dates.
+			    			</div>
+			    		</div>
+			    	</div>
+		    	</td>
+		    	<td>
+		    		<div id="imagen4" class="imagenes">
+			    		<div id="foto4" class="fotos">
+			    			<img id="img4" class="img" src ="/jira/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/img5-large.png" alt="Monitor the access to your accounts" title="Monitor the access to your accounts">
+			    		</div>
+			    		<div id="texto4">
+			    			<div id="titulo4" class="titulos">
+			    				Monitor the access to your accounts
+			    			</div>
+			    			<div class="textos">
+			    				You can monitor the attempts to access your accounts when they are latched and report back to your service provider.
+			    			</div>
+			    		</div>
+			    	</div>
+		    	</td>
+	    	</tr>
+	    </table>
+	    
+	</div>
+</body>
+</html>
