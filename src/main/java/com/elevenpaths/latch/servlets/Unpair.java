@@ -11,6 +11,7 @@ import com.atlassian.jira.security.JiraAuthenticationContext;
 import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
+import com.elevenpaths.latch.Latch;
 import com.elevenpaths.latch.LatchResponse;
 import com.elevenpaths.latch.modelo.Modelo;
 import com.google.gson.JsonObject;
@@ -103,7 +104,7 @@ public class Unpair extends JiraWebActionSupport{
 			
 			if(appId != null && secret != null){
 				
-				Latch2 latch = new Latch2(appId, secret);
+				Latch latch = new Latch(appId, secret);
 				LatchResponse unpairResponse = null;
 				try{
 					unpairResponse = latch.unpair(accountId);

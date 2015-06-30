@@ -9,9 +9,10 @@ import com.atlassian.jira.event.user.UserEvent;
 import com.atlassian.jira.event.user.UserEventType;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
+import com.elevenpaths.latch.Latch;
 import com.elevenpaths.latch.LatchResponse;
 import com.elevenpaths.latch.modelo.Modelo;
-import com.elevenpaths.latch.servlets.Latch2;
+import com.elevenpaths.latch.servlets.LatchApp;
 import com.google.gson.JsonObject;
 
 import org.springframework.beans.factory.DisposableBean;
@@ -99,7 +100,7 @@ public class Login implements InitializingBean, DisposableBean {
 			return;
 		}
 		
-		Latch2 latch = new Latch2(appId, secret);
+		Latch latch = new Latch(appId, secret);
 		LatchResponse statusResponse = null;
 		try{
 			statusResponse = latch.status(accountId);
