@@ -4,7 +4,7 @@ import com.atlassian.sal.api.pluginsettings.PluginSettings;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 
 
-public class Modelo {
+public class LatchModel {
 
 	private static final String PLUGIN_STORAGE_ACCOUNTID = "com.elevenpaths.latch.plugin.accountId.";
 	private static final String PLUGIN_STORAGE_APP_ID = "com.elevenpaths.latch.plugin.app_id";
@@ -12,7 +12,7 @@ public class Modelo {
 	private final PluginSettingsFactory pluginSettingsFactory;
 	private final PluginSettings pluginSettings;
 
-	public Modelo(PluginSettingsFactory pluginSettingsFactory) {
+	public LatchModel(PluginSettingsFactory pluginSettingsFactory) {
 		this.pluginSettingsFactory = pluginSettingsFactory;
 		this.pluginSettings = this.pluginSettingsFactory.createGlobalSettings();
 	}
@@ -63,13 +63,6 @@ public class Modelo {
 		pluginSettings.put(PLUGIN_STORAGE_APP_ID, appId);
 	}
 
-	/**
-	 * remove the appId 
-	 */
-	public void deleteAppId() {
-		pluginSettings.remove(PLUGIN_STORAGE_APP_ID);
-	}
-
 	// SECRET
 
 	/**
@@ -86,13 +79,6 @@ public class Modelo {
 	 */
 	public void setSecret(String secret) {
 		pluginSettings.put(PLUGIN_STORAGE_SECRET, secret);
-	}
-
-	/**
-	 * remove the secret value
-	 */
-	public void deleteSecret() {
-		pluginSettings.remove(PLUGIN_STORAGE_SECRET);
 	}
 
 }

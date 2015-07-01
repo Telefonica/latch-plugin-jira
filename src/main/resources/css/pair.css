@@ -11,7 +11,7 @@
 	text-align: justify;
 	margin-top: 15px;
 }
-.tituloTextos{
+.textTitles{
 	font-size: 1em;
 }
 #buttonToPair{
@@ -25,11 +25,11 @@
 	background: no-repeat #00b9be 8px 14px;
 	background-size: 15px 15px;"
 }
-#tabla{
+#tableDiv{
 	margin-left: 100px;
 	margin-right: 100px;
 }
-.imagenes{
+.images{
 	width: 175px; 
 	height: auto;
 }
@@ -37,26 +37,22 @@
 	width: 175px; 
 	height: 175px;
 }
-.fotos{
+.photos{
 	width: 175px; 
 	height: 175px;
 }
-#imagen1{
+#image1{
 	margin-top: 35px;
 }
-#imagen2{
+#image2{
 	margin-left: 20px
 }
-#imagen3{
+#image3{
 	margin-top: 40px;
 }
-#imagen4{
+#image4{
 	margin-left: 20px; 
 	margin-top: 60px;
-}
-.textos{
-	color: #716f61;
-	text-align: left;
 }
 #errorLatch{
 	color: red;

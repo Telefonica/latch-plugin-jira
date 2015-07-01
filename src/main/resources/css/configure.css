@@ -11,15 +11,7 @@
 	text-align: justify;
 	margin-top: 15px;
 }
-.tituloTextos{
-	font-size: 1em;
-}
-.texts{
-	color: #716f61;
-	text-align: justify;
-	 margin-top: 15px;
-}
-.tituloTextos{
+.textTitles{
 	font-size: 1em;
 }
 #errorLatch{

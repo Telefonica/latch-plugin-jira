@@ -1,37 +1,33 @@
 package com.elevenpaths.latch.servlets;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 
 import webwork.action.ServletActionContext;
 
-import com.atlassian.jira.component.ComponentAccessor;
-import com.atlassian.jira.security.JiraAuthenticationContext;
-import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
-import com.elevenpaths.latch.Latch;
+import com.elevenpaths.latch.LatchApp;
 import com.elevenpaths.latch.LatchResponse;
-import com.elevenpaths.latch.modelo.Modelo;
+import com.elevenpaths.latch.modelo.LatchModel;
+import com.elevenpaths.latch.util.Utilities;
 import com.google.gson.JsonObject;
 
 public class Unpair extends JiraWebActionSupport{
 	
 	private static final long serialVersionUID = 1L;
-	private final Modelo modelo;
-	private JiraAuthenticationContext jiraAuthenticationContext;
+	private final LatchModel modelo;
 	private HttpServletRequest request;
 	private String error;
+	private Utilities latchUtilities;
 
 	/**
 	 * Constructor
 	 * @param pluginSettingsFactory
 	 */
 	public Unpair(PluginSettingsFactory pluginSettingsFactory) {
-		this.modelo = new Modelo(pluginSettingsFactory);
-		this.jiraAuthenticationContext = ComponentAccessor.getJiraAuthenticationContext();
+		this.modelo = new LatchModel(pluginSettingsFactory);
 		this.request = ServletActionContext.getRequest();
+		this.latchUtilities = new Utilities(pluginSettingsFactory);
 	}
 	
 	/**
@@ -42,52 +38,19 @@ public class Unpair extends JiraWebActionSupport{
 		this.error = "";
 		System.out.println("Entro en doValidation:Unpair");
 		
-		String username = getUser();
-		if(username.equals("")){
-			redirectToLogin();
-		}else{
-			if(request.getMethod().equals("GET")){
-				doGet(username);
-			}else if(request.getMethod().equals("POST")){
-				doPost(username);
+		String username = latchUtilities.getUsername();
+		if(!username.equals("")){
+			if (latchUtilities.isPaired(username)) {
+				if(request.getMethod().equals("POST")){
+					unpair(username);
+				}
 			}else{
-				
+				latchUtilities.redirectTo("/secure/LatchIndex.jspa");
 			}
+		}else{
+			latchUtilities.redirectToLogin();
 		}
 	}
-	
-	/**
-	 * it's necessary the user is logged if the user is paired with latch shows
-	 * unpaired view if not, shows the paired view
-	 */
-	private void doGet(String username) {
-		if (!isPaired(username)) {
-			redirectTo("LatchIndex");
-		}
-	}
-
-	/**
-	 * it's necessary the user is logged redirect to unpair view
-	 */
-	private void doPost(String username) {
-		if (!isPaired(username)) {
-			redirectTo("LatchIndex");
-		} else {
-			unpair(username);
-			return;
-		}
-	}
-	
-	/**
-	 * get the id and the secret to create the Latch object
-	 * send unpair request signed with Latch object
-	 * analyze the response, if it's empty, ok
-	 * if not, error
-	 * @param username which is saved in the model
-	 * @param response
-	 * @throws ServletException
-	 * @throws IOException
-	 */
 	
 	/**
 	 * Call to the api to unpair the user
@@ -104,7 +67,7 @@ public class Unpair extends JiraWebActionSupport{
 			
 			if(appId != null && secret != null){
 				
-				Latch latch = new Latch(appId, secret);
+				LatchApp latch = new LatchApp(appId, secret);
 				LatchResponse unpairResponse = null;
 				try{
 					unpairResponse = latch.unpair(accountId);
@@ -113,80 +76,27 @@ public class Unpair extends JiraWebActionSupport{
 			    
 			    if(jObject == null){
 			    	modelo.deleteAccountId(username);
-			    	redirectTo("LatchIndex");
+			    	latchUtilities.redirectTo("/secure/LatchIndex.jspa");
 			    }else{
 			    	com.elevenpaths.latch.Error error = unpairResponse.getError();
 			    	if (error != null) {
-						modelo.deleteAccountId(username);
-						redirectTo("LatchIndex");
+						
 						if(error.getCode() == 102){
 							setError(getError()+"A problem occurred while trying to unpair your account: "
 									+ "	Latch is not configured correctly. Please talk with your admin.\n");
 						}
 			    	}
 			    }
+			    modelo.deleteAccountId(username);
+			    latchUtilities.redirectTo("/secure/LatchIndex.jspa");
 				
 			}else{
 				setError(getError()+"A problem occurred while trying to unpair your account: "
 						+ "	Latch is not configured correctly. Please talk with your admin.\n");
-				redirectTo("LatchIndex");
+				latchUtilities.redirectTo("/secure/LatchIndex.jspa");
 			}
 		}else{
-			redirectTo("LatchIndex");
-		}
-	}
-	
-	/**
-	 * Redirect to another page
-	 * @param path where the user goes
-	 */
-    private void redirectTo(String path) {
-        String nextUrl = "/secure/"+path+".jspa";
-        String contextPath = this.request.getContextPath();
-        if (contextPath != null) {
-            nextUrl = contextPath + nextUrl;
-        }
-        try {
-			ServletActionContext.getResponse().sendRedirect(nextUrl);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    }
-    
-    /**
-     * check if the user is paired with latch
-     * @param username user logged currently
-     * @return if is paired or not
-     */
-    private boolean isPaired(String username){
-    	if (modelo.getAccountId(username) == null){
-    		return false;
-    	}else{
-    		return true;
-    	}
-    }
-	
-    /**
-     * check if exists a logged user
-     * @return the name of the user logged, if not exists return a empty string
-     */
-    private String getUser(){
-    	ApplicationUser user = jiraAuthenticationContext.getUser();
-    	if(user == null){
-    		return "";
-    	}else{
-    		return user.getUsername();
-    	}
-    }
-	
-    /**
-	 * Redirect to the login page
-	 */
-	private void redirectToLogin() {
-		try {
-			ServletActionContext.getResponse().sendRedirect("/jira/");
-		} catch (IOException e) {
-			e.printStackTrace();
+			latchUtilities.redirectTo("/secure/LatchIndex.jspa");
 		}
 	}
 	

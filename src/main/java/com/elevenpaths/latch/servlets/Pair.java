@@ -1,36 +1,32 @@
 package com.elevenpaths.latch.servlets;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 
 import webwork.action.ServletActionContext;
 
-import com.atlassian.jira.component.ComponentAccessor;
-import com.atlassian.jira.security.JiraAuthenticationContext;
-import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
-import com.elevenpaths.latch.Latch;
+import com.elevenpaths.latch.LatchApp;
 import com.elevenpaths.latch.LatchResponse;
-import com.elevenpaths.latch.modelo.Modelo;
+import com.elevenpaths.latch.modelo.LatchModel;
+import com.elevenpaths.latch.util.Utilities;
 import com.google.gson.JsonObject;
 
 public class Pair extends JiraWebActionSupport{
 	
 	private static final long serialVersionUID = 1L;
-	private final Modelo modelo;
-	private JiraAuthenticationContext jiraAuthenticationContext;
+	private LatchModel modelo;
 	private HttpServletRequest request;
 	private String error;
+	private Utilities latchUtilities;
 
 	/**
 	 * Constructor
 	 * @param pluginSettingsFactory
 	 */
 	public Pair( PluginSettingsFactory pluginSettingsFactory) {
-		this.modelo = new Modelo(pluginSettingsFactory);
-		this.jiraAuthenticationContext = ComponentAccessor.getJiraAuthenticationContext();
+		this.modelo = new LatchModel(pluginSettingsFactory);
+		this.latchUtilities = new Utilities(pluginSettingsFactory);
 		this.request = ServletActionContext.getRequest();
 	}
 	
@@ -40,14 +36,13 @@ public class Pair extends JiraWebActionSupport{
 	@Override
 	protected void doValidation() {
 		this.error = "";
-		System.out.println("Entro en doValidation:Pair");
 		
-		String username = getUser();
+		String username = latchUtilities.getUsername();
 		if(username.equals("")){
-			redirectToLogin();
+			latchUtilities.redirectToLogin();
 		}else{
-			if(isPaired(username)){
-				redirectTo("LatchUnpair");
+			if(latchUtilities.isPaired(username)){
+				latchUtilities.redirectTo("/secure/LatchUnpair.jspa");
 			}else{
 				if(request.getMethod().equals("POST")){
 					String token = request.getParameter("token") == null ? "" : request.getParameter("token");
@@ -66,14 +61,10 @@ public class Pair extends JiraWebActionSupport{
 	private void doPost(String token, String username) {
 		if (token.length() != 6) {
 			setError(getError() + "Field Token must have 6 characters.\n");
-		}
-		if (!token.matches("[a-zA-Z0-9]+")) {
-			setError(getError()
-					+ "Only alphanumeric values are permitted in Token field.\n");
-		}
-		if (token.length() == 6 && token.matches("[a-zA-Z0-9]+")) {
+		} else if (!token.matches("[a-zA-Z0-9]+")) {
+			setError(getError()+ "Only alphanumeric values are permitted in Token field.\n");
+		} else {
 			pair(token, username);
-			return;
 		}
 	}
 	
@@ -92,28 +83,22 @@ public class Pair extends JiraWebActionSupport{
 					
 			if(appId != null && secret != null){
 				
-				Latch latch = new Latch(appId, secret);
+				LatchApp latch = new LatchApp(appId, secret);
 				LatchResponse pairResponse = null;
 				try{
 					pairResponse = latch.pair(token);
-				}catch(Exception e){ }
+				}catch(NullPointerException e){ }
 				
 			    com.elevenpaths.latch.Error error = pairResponse.getError();
 			    
-			    if(error == null){
-			    	JsonObject jObject = pairResponse.getData();
-					String accountId = jObject.get("accountId").getAsString();
-					modelo.setAccountId(username, accountId);
-					redirectTo("LatchUnpair");
-			    }else{
-					System.err.println("Error: " + error.getCode());
+			    if(error != null){
 					switch (error.getCode()) {
 
 					case 205:
 						JsonObject jObject = pairResponse.getData();
 						String accountId = jObject.get("accountId").getAsString();
 						modelo.setAccountId(username, accountId);
-						redirectTo("LatchUnpair");
+						latchUtilities.redirectTo("/secure/LatchUnpair.jspa");
 						break;
 					case 206:
 						setError(getError()+"A problem occurred while trying to pair your account: "
@@ -126,69 +111,19 @@ public class Pair extends JiraWebActionSupport{
 					default:
 						break;
 					}
+			    }else{
+			    	JsonObject jObject = pairResponse.getData();
+					String accountId = jObject.get("accountId").getAsString();
+					modelo.setAccountId(username, accountId);
+					latchUtilities.redirectTo("/secure/LatchUnpair.jspa");
 			    }
 			}else{
-				//habla con tu admin
 				setError(getError()+"A problem occurred while trying to pair your account: "
 						+ "	Latch is not configured correctly. Please talk with your admin.\n");
-				redirectTo("LatchPair");
+				latchUtilities.redirectTo("/secure/LatchPair.jspa");
 			}
 		}else{
-			redirectTo("LatchUnpair");
-		}
-	}
-	
-	/**
-	 * Redirect to another page
-	 * @param path where the user goes
-	 */
-    private void redirectTo(String path) {
-        String nextUrl = "/secure/"+path+".jspa";
-        String contextPath = this.request.getContextPath();
-        if (contextPath != null) {
-            nextUrl = contextPath + nextUrl;
-        }
-        try {
-			ServletActionContext.getResponse().sendRedirect(nextUrl);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-   }
-
-    /**
-     * check if the user is paired with latch
-     * @param username user logged currently
-     * @return if is paired or not
-     */
-    private boolean isPaired(String username){
-    	if (modelo.getAccountId(username) == null){
-    		return false;
-    	}else{
-    		return true;
-    	}
-    }
-    
-    /**
-     * check if exists a logged user
-     * @return the name of the user logged, if not exists return a empty string
-     */
-    private String getUser(){
-    	ApplicationUser user = jiraAuthenticationContext.getUser();
-    	if(user == null){
-    		return "";
-    	}else{
-    		return user.getUsername();
-    	}
-    }
-	
-    /**
-	 * Redirect to the login page
-	 */
-	private void redirectToLogin() {
-		try {
-			ServletActionContext.getResponse().sendRedirect("/jira/");
-		} catch (IOException e) {
-			e.printStackTrace();
+			latchUtilities.redirectTo("/secure/LatchUnpair.jspa");
 		}
 	}
 	

@@ -9,9 +9,9 @@
 .texts{
 	color: #716f61;
 	text-align: justify;
-	 margin-top: 15px;
+	margin-top: 15px;
 }
-.tituloTextos{
+.textTitles{
 	font-size: 1em;
 }
 #buttonToPair{
@@ -25,10 +25,10 @@
 	background: no-repeat #00b9be 8px 14px;
 	background-size: 15px 15px;"
 }
-#tabla{
+#tableDiv{
 	margin-left: 100px;
 }
-.imagenes{
+.images{
 	width: 175px; 
 	height: auto;
 }
@@ -36,38 +36,34 @@
 	width: 175px; 
 	height: 175px;
 }
-.fotos{
+.photos{
 	width: 175px; 
 	height: 175px;
 }
-#imagen1{
+#image1{
 	margin-top:15px;
 }
-#imagen2{
+#image2{
 	margin-left:20px
 }
-#imagen3{
+#image3{
 	margin-top:15px;
 }
-#imagen4{
+#image4{
 	margin-left:20px; 
 	margin-top:30px;
 }
-.titulos{
+.titles{
 	color: #00b9be;
 	font-size: 14px;
 	font-weight: 700;
 }
-.textos{
-	color: #716f61;
-	text-align: left;
-}
-#titulo2{
+#title2{
 	margin-top: 3px;
 }
-#titulo3{
+#title3{
 	margin-top: 3px;
 }
-#titulo4{
+#title4{
 	margin-top: 3px;
 }
