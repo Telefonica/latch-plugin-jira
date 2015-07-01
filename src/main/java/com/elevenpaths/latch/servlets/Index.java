@@ -15,6 +15,9 @@ public class Index extends JiraWebActionSupport{
 	
 	private HttpServletRequest request;
 	private Utilities latchUtilities;
+	
+	private final String LATCH_PAIR = "/secure/LatchPair.jspa";
+	private final String LATCH_UNPAIR = "/secure/LatchUnpair.jspa";
 
 	/**
 	 * Constructor
@@ -35,10 +38,10 @@ public class Index extends JiraWebActionSupport{
 		String username = latchUtilities.getUsername();
 		if(!username.equals("")){
 			if(latchUtilities.isPaired(username)){
-				latchUtilities.redirectTo("/secure/LatchUnpair.jspa");
+				latchUtilities.redirectTo(LATCH_UNPAIR);
 			}else{
 				if(request.getMethod().equals("POST")){
-					latchUtilities.redirectTo("/secure/LatchPair.jspa");
+					latchUtilities.redirectTo(LATCH_PAIR);
 				}
 			}
 		}else{

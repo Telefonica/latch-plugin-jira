@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import webwork.action.ServletActionContext;
 
 import com.atlassian.jira.web.action.JiraWebActionSupport;
+import com.atlassian.sal.api.message.I18nResolver;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 import com.elevenpaths.latch.LatchApp;
 import com.elevenpaths.latch.LatchResponse;
@@ -19,15 +20,21 @@ public class Unpair extends JiraWebActionSupport{
 	private HttpServletRequest request;
 	private String error;
 	private Utilities latchUtilities;
+	private I18nResolver i18nResolver;
+	
+	private final String UNPAIR_ERROR_CONF = "com.elevenpaths.latch.latch-plugin-jira.unpairErrorConf";
+	
+	private final String LATCH_INDEX = "/secure/LatchIndex.jspa";
 
 	/**
 	 * Constructor
 	 * @param pluginSettingsFactory
 	 */
-	public Unpair(PluginSettingsFactory pluginSettingsFactory) {
+	public Unpair(PluginSettingsFactory pluginSettingsFactory, I18nResolver i18nResolver) {
 		this.modelo = new LatchModel(pluginSettingsFactory);
 		this.request = ServletActionContext.getRequest();
 		this.latchUtilities = new Utilities(pluginSettingsFactory);
+		this.i18nResolver = i18nResolver;
 	}
 	
 	/**
@@ -36,7 +43,6 @@ public class Unpair extends JiraWebActionSupport{
 	@Override
 	protected void doValidation() {
 		this.error = "";
-		System.out.println("Entro en doValidation:Unpair");
 		
 		String username = latchUtilities.getUsername();
 		if(!username.equals("")){
@@ -45,7 +51,7 @@ public class Unpair extends JiraWebActionSupport{
 					unpair(username);
 				}
 			}else{
-				latchUtilities.redirectTo("/secure/LatchIndex.jspa");
+				latchUtilities.redirectTo(LATCH_INDEX);
 			}
 		}else{
 			latchUtilities.redirectToLogin();
@@ -76,28 +82,22 @@ public class Unpair extends JiraWebActionSupport{
 			    
 			    if(jObject == null){
 			    	modelo.deleteAccountId(username);
-			    	latchUtilities.redirectTo("/secure/LatchIndex.jspa");
 			    }else{
 			    	com.elevenpaths.latch.Error error = unpairResponse.getError();
 			    	if (error != null) {
 						
 						if(error.getCode() == 102){
-							setError(getError()+"A problem occurred while trying to unpair your account: "
-									+ "	Latch is not configured correctly. Please talk with your admin.\n");
+							setError(getError()+i18nResolver.getText(UNPAIR_ERROR_CONF));
 						}
 			    	}
 			    }
 			    modelo.deleteAccountId(username);
-			    latchUtilities.redirectTo("/secure/LatchIndex.jspa");
 				
 			}else{
-				setError(getError()+"A problem occurred while trying to unpair your account: "
-						+ "	Latch is not configured correctly. Please talk with your admin.\n");
-				latchUtilities.redirectTo("/secure/LatchIndex.jspa");
+				setError(getError()+i18nResolver.getText(UNPAIR_ERROR_CONF));
 			}
-		}else{
-			latchUtilities.redirectTo("/secure/LatchIndex.jspa");
 		}
+		latchUtilities.redirectTo(LATCH_INDEX);
 	}
 	
 	public String getError() {

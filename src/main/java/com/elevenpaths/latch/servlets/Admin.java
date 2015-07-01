@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import webwork.action.ServletActionContext;
 
+import com.atlassian.sal.api.message.I18nResolver;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 import com.atlassian.sal.api.user.UserManager;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
@@ -19,16 +20,23 @@ public class Admin extends JiraWebActionSupport{
 	private HttpServletRequest request;
 	private String error;
 	private Utilities latchUtilites;
+	private I18nResolver i18nResolver;
+	
+	private final String APP_ID_ERROR_1 = "com.elevenpaths.latch.latch-plugin-jira.appIdError1";
+	private final String APP_ID_ERROR_2 = "com.elevenpaths.latch.latch-plugin-jira.appIdError2";
+	private final String SECRET_ERROR_1 = "com.elevenpaths.latch.latch-plugin-jira.secretError1";
+	private final String SECRET_ERROR_2 = "com.elevenpaths.latch.latch-plugin-jira.secretError2";
 
 	/**
 	 * Constructor
 	 * @param pluginSettingsFactory
 	 * @param userManager
 	 */
-	public Admin( PluginSettingsFactory pluginSettingsFactory, UserManager userManager) {
+	public Admin( PluginSettingsFactory pluginSettingsFactory, UserManager userManager, I18nResolver i18nResolver) {
 		this.modelo = new LatchModel(pluginSettingsFactory);
 		this.request = ServletActionContext.getRequest();
 		this.latchUtilites = new Utilities(pluginSettingsFactory, userManager);
+		this.i18nResolver = i18nResolver;
 	}
 	
 	
@@ -61,17 +69,17 @@ public class Admin extends JiraWebActionSupport{
 	private void doPost(String appId, String secret){
 		
 		if(!appId.matches("[a-zA-Z0-9]+")){
-			setError(getError()+"Only alphanumeric values are permitted in Application ID field.\n");
+			setError(getError()+i18nResolver.getText(APP_ID_ERROR_1));
 		} else if(appId.length() != 20){
-			setError(getError()+"Field Application ID must have 20 characters.\n");
+			setError(getError()+i18nResolver.getText(APP_ID_ERROR_2));
 		} else {
 			modelo.setAppId(appId);
 		}
 		
 		if(!secret.matches("[a-zA-Z0-9]+")){
-			setError(getError()+"Only alphanumeric values are permitted in Secret field.\n");
+			setError(getError()+i18nResolver.getText(SECRET_ERROR_1));
 		} else if(secret.length() != 40){
-			setError(getError()+"Field Secret must have 40 characters.\n");
+			setError(getError()+i18nResolver.getText(SECRET_ERROR_2));
 		} else {
 			modelo.setSecret(secret);
 		}

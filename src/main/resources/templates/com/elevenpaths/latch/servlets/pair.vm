@@ -3,14 +3,15 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Pairing Latch</title>
+		<meta name="decorator" content="atl.general">
+		<title>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTitle")</title>
 		<link rel="stylesheet" type="text/css" href="/jira/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/css/pair.css">
 	</head>
 	<body>
 		<div id="container">
 		
-			<div id="titulo">
-		    	<h2>Type your pairing token</h2>
+			<div id="title">
+		    	<h2>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairInput")</h2>
 		    </div>
 
 		    <div id="errorLatch">
@@ -19,38 +20,38 @@
 
 			<form class="aui" method="POST">
 				<div class="field-group">
-					<input type="text" id="token" name="token" class="text" placeholder="Type your pairing token">
-	            	<input type="submit" value="Pair account" class="button">
+					<input type="text" id="token" name="token" class="text" placeholder="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmPairInput')">
+	            	<input type="submit" value="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmPairButton')" class="button">
 	        	</div> 
 			</form>
 			
-			<div id="queEs" class="texts">
-		    	<p class="tituloTextos"><strong>How to enable Latch for your account?</strong></p>
-				<p>You first need to pair it to your Latch account, in the same way you pair your phone with your car Bluetooth system the first time you use it.</p>
+			<div class="texts">
+		    	<p class="textTitles"><strong>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTitleInfo")</strong></p>
+				<p>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTextInfo1")</p>
 		    </div>
 			
-			<table id="tabla">
+			<table id="tableDiv">
 		    	<tr>
 			    	<td>
-				    	<div id="imagen1" class="imagenes">
-				    		<div id="foto1" class="fotos">
-				    			<img id="img1" class="img" src="/jira/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/pair_01.png" alt="Get back control of your digital identity" title="Get back control of your digital identity">
+				    	<div id="image1" class="images">
+				    		<div id="foto1" class="photos">
+				    			<img id="img1" class="img" src="/jira/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/pair_01.png" alt="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg1')" title="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg1')">
 				    		</div>
 				    		<div id="texto1">
-				    			<div class="textos">
-				    				First, launch the pairing process from the service provider website. You will be asked to introduce a pairing code.
+				    			<div class="texts">
+				    				$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTextImg1")
 				    			</div>
 				    		</div>
 				    	</div>
 		    		</td>
 			    	<td>
-			    		<div id="imagen2" class="imagenes">
-				    		<div id="foto2" class="fotos">
-				    			<img id="img2" class="img" src="/jira/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/img2-large.png" alt="Get an extra security level on your accounts" title="Get an extra security level on your accounts">
+			    		<div id="image2" class="images">
+				    		<div id="foto2" class="photos">
+				    			<img id="img2" class="img" src="/jira/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/img2-large.png" alt="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg2')" title="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg2')">
 				    		</div>
 				    		<div id="texto2">
-				    			<div class="textos">
-				    				Sign into the Latch app and on the main screen tap Add Service.
+				    			<div class="texts">
+				    				$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTextImg2")
 				    			</div>
 				    		</div>
 				    	</div>
@@ -58,25 +59,25 @@
 		    	</tr>
 		    	<tr>
 			    	<td>
-			    		<div id="imagen3" class="imagenes">
-				    		<div id="foto3" class="fotos">
-				    			<img id="img3" class="img" src="/jira/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/how_02.png" alt="OFF-time automatic schedule" title="OFF-time automatic schedule">
+			    		<div id="image3" class="images">
+				    		<div id="foto3" class="photos">
+				    			<img id="img3" class="img" src="/jira/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/how_02.png" alt="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg3')" title="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg3')">
 				    		</div>
 				    		<div id="texto3">
-				    			<div class="textos">
-				    				On the Add Service screen tap Generate a pairing code.
+				    			<div class="texts">
+				    				$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTextImg3")
 				    			</div>
 				    		</div>
 				    	</div>
 			    	</td>
 			    	<td>
-			    		<div id="imagen4" class="imagenes">
-				    		<div id="foto4" class="fotos">
-				    			<img id="img4" class="img" src ="/jira/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/pair_04.png" alt="Monitor the access to your accounts" title="Monitor the access to your accounts">
+			    		<div id="image4" class="images">
+				    		<div id="foto4" class="photos">
+				    			<img id="img4" class="img" src ="/jira/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/pair_04.png" alt="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg4')" title="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg4')">
 				    		</div>
 				    		<div id="texto4">
-				    			<div class="textos">
-				    				Enter the code displayed on your app screen on the website of the service you are pairing.
+				    			<div class="texts">
+				    				$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTextImg4")
 				    			</div>
 				    		</div>
 				    	</div>
