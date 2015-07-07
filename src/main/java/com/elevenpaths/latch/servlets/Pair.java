@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import webwork.action.ServletActionContext;
 
+import com.atlassian.jira.component.ComponentAccessor;
+import com.atlassian.jira.security.JiraAuthenticationContext;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.sal.api.message.I18nResolver;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
@@ -19,8 +21,8 @@ public class Pair extends JiraWebActionSupport{
 	private LatchModel modelo;
 	private HttpServletRequest request;
 	private String error;
-	private Utilities latchUtilities;
 	private I18nResolver i18nResolver;
+	private JiraAuthenticationContext jiraAuthenticationContext;
 	
 	private final String TOKEN_ERROR_1 = "com.elevenpaths.latch.latch-plugin-jira.tokenError1";
 	private final String TOKEN_ERROR_2 = "com.elevenpaths.latch.latch-plugin-jira.tokenError2";
@@ -36,9 +38,9 @@ public class Pair extends JiraWebActionSupport{
 	 */
 	public Pair( PluginSettingsFactory pluginSettingsFactory, I18nResolver i18nResolver) {
 		this.modelo = new LatchModel(pluginSettingsFactory);
-		this.latchUtilities = new Utilities(pluginSettingsFactory);
 		this.request = ServletActionContext.getRequest();
 		this.i18nResolver = i18nResolver;
+		this.jiraAuthenticationContext = ComponentAccessor.getJiraAuthenticationContext();
 	}
 	
 	/**
@@ -48,12 +50,12 @@ public class Pair extends JiraWebActionSupport{
 	protected void doValidation() {
 		this.error = "";
 		
-		String username = latchUtilities.getUsername();
+		String username = Utilities.getUsername(jiraAuthenticationContext);
 		if(username.equals("")){
-			latchUtilities.redirectToLogin();
+			Utilities.redirectToLogin();
 		}else{
-			if(latchUtilities.isPaired(username)){
-				latchUtilities.redirectTo(LATCH_UNPAIR);
+			if(Utilities.isPaired(username, modelo)){
+				Utilities.redirectTo(LATCH_UNPAIR);
 			}else{
 				if(request.getMethod().equals("POST")){
 					String token = request.getParameter("token") == null ? "" : request.getParameter("token");
@@ -109,7 +111,7 @@ public class Pair extends JiraWebActionSupport{
 						JsonObject jObject = pairResponse.getData();
 						String accountId = jObject.get("accountId").getAsString();
 						modelo.setAccountId(username, accountId);
-						latchUtilities.redirectTo(LATCH_UNPAIR);
+						Utilities.redirectTo(LATCH_UNPAIR);
 						break;
 					case 206:
 						setError(getError()+i18nResolver.getText(PAIR_ERROR_206));
@@ -124,14 +126,14 @@ public class Pair extends JiraWebActionSupport{
 			    	JsonObject jObject = pairResponse.getData();
 					String accountId = jObject.get("accountId").getAsString();
 					modelo.setAccountId(username, accountId);
-					latchUtilities.redirectTo(LATCH_UNPAIR);
+					Utilities.redirectTo(LATCH_UNPAIR);
 			    }
 			}else{
 				setError(getError()+i18nResolver.getText(PAIR_ERROR_CONF));
-				latchUtilities.redirectTo(LATCH_PAIR);
+				Utilities.redirectTo(LATCH_PAIR);
 			}
 		}else{
-			latchUtilities.redirectTo(LATCH_UNPAIR);
+			Utilities.redirectTo(LATCH_UNPAIR);
 		}
 	}
 	

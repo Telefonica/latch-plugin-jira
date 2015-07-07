@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import webwork.action.ServletActionContext;
 
+import com.atlassian.jira.component.ComponentAccessor;
+import com.atlassian.jira.security.JiraAuthenticationContext;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.sal.api.message.I18nResolver;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
@@ -19,8 +21,8 @@ public class Unpair extends JiraWebActionSupport{
 	private final LatchModel modelo;
 	private HttpServletRequest request;
 	private String error;
-	private Utilities latchUtilities;
 	private I18nResolver i18nResolver;
+	private JiraAuthenticationContext jiraAuthenticationContext;
 	
 	private final String UNPAIR_ERROR_CONF = "com.elevenpaths.latch.latch-plugin-jira.unpairErrorConf";
 	
@@ -33,8 +35,8 @@ public class Unpair extends JiraWebActionSupport{
 	public Unpair(PluginSettingsFactory pluginSettingsFactory, I18nResolver i18nResolver) {
 		this.modelo = new LatchModel(pluginSettingsFactory);
 		this.request = ServletActionContext.getRequest();
-		this.latchUtilities = new Utilities(pluginSettingsFactory);
 		this.i18nResolver = i18nResolver;
+		this.jiraAuthenticationContext = ComponentAccessor.getJiraAuthenticationContext();
 	}
 	
 	/**
@@ -44,17 +46,17 @@ public class Unpair extends JiraWebActionSupport{
 	protected void doValidation() {
 		this.error = "";
 		
-		String username = latchUtilities.getUsername();
+		String username = Utilities.getUsername(jiraAuthenticationContext);
 		if(!username.equals("")){
-			if (latchUtilities.isPaired(username)) {
+			if (Utilities.isPaired(username, modelo)) {
 				if(request.getMethod().equals("POST")){
 					unpair(username);
 				}
 			}else{
-				latchUtilities.redirectTo(LATCH_INDEX);
+				Utilities.redirectTo(LATCH_INDEX);
 			}
 		}else{
-			latchUtilities.redirectToLogin();
+			Utilities.redirectToLogin();
 		}
 	}
 	
@@ -77,7 +79,7 @@ public class Unpair extends JiraWebActionSupport{
 				LatchResponse unpairResponse = null;
 				try{
 					unpairResponse = latch.unpair(accountId);
-				}catch(Exception e){ }
+				}catch(NullPointerException e){ }
 				JsonObject jObject = unpairResponse.getData();
 			    
 			    if(jObject == null){
@@ -97,7 +99,7 @@ public class Unpair extends JiraWebActionSupport{
 				setError(getError()+i18nResolver.getText(UNPAIR_ERROR_CONF));
 			}
 		}
-		latchUtilities.redirectTo(LATCH_INDEX);
+		Utilities.redirectTo(LATCH_INDEX);
 	}
 	
 	public String getError() {

@@ -7,6 +7,8 @@ import webwork.action.ServletActionContext;
 import com.atlassian.sal.api.message.I18nResolver;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 import com.atlassian.sal.api.user.UserManager;
+import com.atlassian.jira.component.ComponentAccessor;
+import com.atlassian.jira.security.JiraAuthenticationContext;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.elevenpaths.latch.modelo.LatchModel;
 import com.elevenpaths.latch.util.Utilities;
@@ -19,8 +21,9 @@ public class Admin extends JiraWebActionSupport{
 	private LatchModel modelo;
 	private HttpServletRequest request;
 	private String error;
-	private Utilities latchUtilites;
 	private I18nResolver i18nResolver;
+	private JiraAuthenticationContext jiraAuthenticationContext;
+	private UserManager userManager;
 	
 	private final String APP_ID_ERROR_1 = "com.elevenpaths.latch.latch-plugin-jira.appIdError1";
 	private final String APP_ID_ERROR_2 = "com.elevenpaths.latch.latch-plugin-jira.appIdError2";
@@ -35,8 +38,9 @@ public class Admin extends JiraWebActionSupport{
 	public Admin( PluginSettingsFactory pluginSettingsFactory, UserManager userManager, I18nResolver i18nResolver) {
 		this.modelo = new LatchModel(pluginSettingsFactory);
 		this.request = ServletActionContext.getRequest();
-		this.latchUtilites = new Utilities(pluginSettingsFactory, userManager);
 		this.i18nResolver = i18nResolver;
+		this.jiraAuthenticationContext = ComponentAccessor.getJiraAuthenticationContext();
+		this.userManager = userManager;
 	}
 	
 	
@@ -47,7 +51,7 @@ public class Admin extends JiraWebActionSupport{
 	@Override
 	protected void doValidation() {
 		this.error = "";
-		if (latchUtilites.isAdmin()){
+		if (Utilities.isAdmin(jiraAuthenticationContext, userManager)){
 			String metodo = request.getMethod();
 			if(metodo.equals("POST")){
 				String appId = request.getParameter("appId") != null ? request.getParameter("appId") : "";
@@ -56,7 +60,7 @@ public class Admin extends JiraWebActionSupport{
 			}
 			
 		}else{
-			latchUtilites.redirectToLogin();
+			Utilities.redirectToLogin();
 		}
 		
 	}

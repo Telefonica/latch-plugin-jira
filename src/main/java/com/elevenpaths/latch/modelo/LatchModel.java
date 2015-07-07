@@ -9,6 +9,8 @@ public class LatchModel {
 	private static final String PLUGIN_STORAGE_ACCOUNTID = "com.elevenpaths.latch.plugin.accountId.";
 	private static final String PLUGIN_STORAGE_APP_ID = "com.elevenpaths.latch.plugin.app_id";
 	private static final String PLUGIN_STORAGE_SECRET = "com.elevenpaths.latch.plugin.secret";
+	private static final String PLUGIN_STORAGE_TOKEN = "com.elevenpaths.latch.plugin.otp.";
+	private static final String PLUGIN_STORAGE_ATTEMPTS = "com.elevenpaths.latch.plugin.attempts.";
 	private final PluginSettingsFactory pluginSettingsFactory;
 	private final PluginSettings pluginSettings;
 
@@ -79,6 +81,32 @@ public class LatchModel {
 	 */
 	public void setSecret(String secret) {
 		pluginSettings.put(PLUGIN_STORAGE_SECRET, secret);
+	}
+	
+	// OTP
+
+	public String getToken(String username) {
+		return (String) pluginSettings.get(PLUGIN_STORAGE_TOKEN + username);
+	}
+
+	public void setToken(String username, String token) {
+		pluginSettings.put(PLUGIN_STORAGE_TOKEN + username, token);
+	}
+	
+	public void deleteToken(String username){
+		pluginSettings.remove(PLUGIN_STORAGE_TOKEN+username);
+	}
+	
+	// ATTEMPTS
+	
+	public void getAndIncreaseAttempts(String username) {
+		int attempts = Integer.parseInt((String) pluginSettings.get(PLUGIN_STORAGE_ATTEMPTS + username));
+		attempts += 1;
+		pluginSettings.put(PLUGIN_STORAGE_ATTEMPTS + username, attempts);
+	}
+	
+	public void resetAttempts(String username) {
+		pluginSettings.remove(PLUGIN_STORAGE_ATTEMPTS + username);
 	}
 
 }

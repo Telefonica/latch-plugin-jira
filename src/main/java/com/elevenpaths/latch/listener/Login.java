@@ -22,7 +22,6 @@ public class Login implements InitializingBean, DisposableBean {
 
 	private EventPublisher eventPublisher;
 	private LatchModel model;
-	private Utilities latchUtilities;
 
 	/**
 	 * Constructor.
@@ -31,7 +30,6 @@ public class Login implements InitializingBean, DisposableBean {
 	public Login(EventPublisher eventPublisher, PluginSettingsFactory pluginSettingsFactory) {
 		this.eventPublisher = eventPublisher;
 		this.model = new LatchModel(pluginSettingsFactory);
-		this.latchUtilities = new Utilities(pluginSettingsFactory);
 	}
 
 	/**
@@ -66,19 +64,19 @@ public class Login implements InitializingBean, DisposableBean {
 			case UserEventType.USER_LOGIN:
 				User user = userEvent.getUser();
 				String username = null;
-				try {
+				if(user != null){
 					username = user.getName();
-				} catch (NullPointerException e) {
+				}else{
 					return;
 				}
 
-				if(!latchUtilities.isPaired(username)){
+				if(!Utilities.isPaired(username, model)){
 					return;
 				}
 				status(username);
 				break;
 			case UserEventType.USER_LOGOUT:
-				latchUtilities.redirectTo("");
+				Utilities.redirectTo("");
 				break;
 		}
 	}

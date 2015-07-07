@@ -4,8 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import webwork.action.ServletActionContext;
 
+import com.atlassian.jira.component.ComponentAccessor;
+import com.atlassian.jira.security.JiraAuthenticationContext;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
+import com.elevenpaths.latch.modelo.LatchModel;
 import com.elevenpaths.latch.util.Utilities;
 
 
@@ -14,7 +17,8 @@ public class Index extends JiraWebActionSupport{
 	private static final long serialVersionUID = 1L;
 	
 	private HttpServletRequest request;
-	private Utilities latchUtilities;
+	private LatchModel model;
+	private JiraAuthenticationContext jiraAuthenticationContext;
 	
 	private final String LATCH_PAIR = "/secure/LatchPair.jspa";
 	private final String LATCH_UNPAIR = "/secure/LatchUnpair.jspa";
@@ -25,7 +29,8 @@ public class Index extends JiraWebActionSupport{
 	 */
 	public Index( PluginSettingsFactory pluginSettingsFactory) {
 		this.request = ServletActionContext.getRequest();
-		this.latchUtilities = new Utilities(pluginSettingsFactory);
+		this.model = new LatchModel(pluginSettingsFactory);
+		this.jiraAuthenticationContext = ComponentAccessor.getJiraAuthenticationContext();
 	}
 	
 	/**
@@ -35,17 +40,17 @@ public class Index extends JiraWebActionSupport{
 	 */
 	@Override
 	protected void doValidation() {
-		String username = latchUtilities.getUsername();
+		String username = Utilities.getUsername(jiraAuthenticationContext);
 		if(!username.equals("")){
-			if(latchUtilities.isPaired(username)){
-				latchUtilities.redirectTo(LATCH_UNPAIR);
+			if(Utilities.isPaired(username, model)){
+				Utilities.redirectTo(LATCH_UNPAIR);
 			}else{
 				if(request.getMethod().equals("POST")){
-					latchUtilities.redirectTo(LATCH_PAIR);
+					Utilities.redirectTo(LATCH_PAIR);
 				}
 			}
 		}else{
-			latchUtilities.redirectToLogin();
+			Utilities.redirectToLogin();
 		}
 	}
 
