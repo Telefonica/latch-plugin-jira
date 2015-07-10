@@ -1,4 +1,4 @@
-#enable_html_escaping()
+#htmlSafe()
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -22,7 +22,8 @@
 				<p>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmConfigureTexto1")</p>
 		    </div>		    
 		    		
-			<form class="aui" method="POST"> 
+			<form class="aui" method="POST" action="/jira/secure/LatchConfigure.jspa?atl_token=${atl_token}"> 
+				<input type="hidden" name="atl_token" value="$atl_token" />
 				<div class="field-group">
 		             <label for="appId">$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmConfigureAppId")</label>
 		             <input type="text" id="appId" name="appId" class="text" value="$action.getAppId()">

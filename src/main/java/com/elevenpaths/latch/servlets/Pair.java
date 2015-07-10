@@ -6,6 +6,7 @@ import webwork.action.ServletActionContext;
 
 import com.atlassian.jira.component.ComponentAccessor;
 import com.atlassian.jira.security.JiraAuthenticationContext;
+import com.atlassian.jira.security.xsrf.XsrfTokenGenerator;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.sal.api.message.I18nResolver;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
@@ -29,7 +30,6 @@ public class Pair extends JiraWebActionSupport{
 	private final String PAIR_ERROR_206 = "com.elevenpaths.latch.latch-plugin-jira.pairError206";
 	private final String PAIR_ERROR_CONF = "com.elevenpaths.latch.latch-plugin-jira.pairErrorConf";
 	
-	private final String LATCH_PAIR = "/secure/LatchPair.jspa";
 	private final String LATCH_UNPAIR = "/secure/LatchUnpair.jspa";
 
 	/**
@@ -56,38 +56,42 @@ public class Pair extends JiraWebActionSupport{
 		}else{
 			if(Utilities.isPaired(username, modelo)){
 				Utilities.redirectTo(LATCH_UNPAIR);
-			}else{
-				if(request.getMethod().equals("POST")){
-					String token = request.getParameter("token") == null ? "" : request.getParameter("token");
-					doPost(token, username);
-				}	
 			}
-			
 		}		
 	}
 	
 	/**
 	 * check if the token is ok and send it to the pair method
-	 * @param token
-	 * @param username
 	 */
-	private void doPost(String token, String username) {
-		if (token.length() != 6) {
-			setError(getError() + i18nResolver.getText(TOKEN_ERROR_1));
-		} else if (!token.matches("[a-zA-Z0-9]+")) {
-			setError(getError() + i18nResolver.getText(TOKEN_ERROR_2));
-		} else {
-			pair(token, username);
+	
+	@Override
+	protected String doExecute() throws Exception {
+		if(request.getMethod().equals("POST")){
+			String token = request.getParameter("token") == null ? "" : request.getParameter("token");
+
+			if (token.length() != 6) {
+				setError(getError() + i18nResolver.getText(TOKEN_ERROR_1));
+			} else if (!token.matches("[a-zA-Z0-9]+")) {
+				setError(getError() + i18nResolver.getText(TOKEN_ERROR_2));
+			} else {
+				pair(token);
+			}
 		}
+		return SUCCESS;
 	}
 	
 	/**
 	 * Send the token to api and if ok, pair the user and save the accountId
 	 * if there is a problem, treat the error
 	 * @param token which is used to pair
-	 * @param username who is gonna pair
 	 */
-	private void pair(String token, String username) {
+	@com.atlassian.jira.security.xsrf.RequiresXsrfCheck
+	private void pair(String token) {
+		
+		XsrfTokenGenerator xsrfTokenGenerator = ComponentAccessor.getComponentOfType(XsrfTokenGenerator.class);
+		xsrfTokenGenerator.generateToken(request);
+		
+		String username = Utilities.getUsername(jiraAuthenticationContext);
 		
 		if(modelo.getAccountId(username) == null){
 			
@@ -130,7 +134,6 @@ public class Pair extends JiraWebActionSupport{
 			    }
 			}else{
 				setError(getError()+i18nResolver.getText(PAIR_ERROR_CONF));
-				Utilities.redirectTo(LATCH_PAIR);
 			}
 		}else{
 			Utilities.redirectTo(LATCH_UNPAIR);

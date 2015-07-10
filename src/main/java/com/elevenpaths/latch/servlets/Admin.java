@@ -9,6 +9,7 @@ import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 import com.atlassian.sal.api.user.UserManager;
 import com.atlassian.jira.component.ComponentAccessor;
 import com.atlassian.jira.security.JiraAuthenticationContext;
+import com.atlassian.jira.security.xsrf.XsrfTokenGenerator;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.elevenpaths.latch.modelo.LatchModel;
 import com.elevenpaths.latch.util.Utilities;
@@ -51,27 +52,30 @@ public class Admin extends JiraWebActionSupport{
 	@Override
 	protected void doValidation() {
 		this.error = "";
-		if (Utilities.isAdmin(jiraAuthenticationContext, userManager)){
-			String metodo = request.getMethod();
-			if(metodo.equals("POST")){
-				String appId = request.getParameter("appId") != null ? request.getParameter("appId") : "";
-				String secret = request.getParameter("secret") != null ? request.getParameter("secret") : "";
-				doPost(appId, secret);
-			}
-			
-		}else{
+		if (!Utilities.isAdmin(jiraAuthenticationContext, userManager)){
 			Utilities.redirectToLogin();
 		}
-		
+	}
+	
+	@Override
+	protected String doExecute() throws Exception {
+		if(request.getMethod().equals("POST")){
+			saveAppIdAndSecret();
+		}
+		return SUCCESS;
 	}
 	
 	/**
 	 * save the applicationId and the secret in the model
-	 * @param appId
-	 * @param secret
 	 */
-	private void doPost(String appId, String secret){
+	@com.atlassian.jira.security.xsrf.RequiresXsrfCheck
+	private void saveAppIdAndSecret(){
+		XsrfTokenGenerator xsrfTokenGenerator = ComponentAccessor.getComponentOfType(XsrfTokenGenerator.class);
+		xsrfTokenGenerator.generateToken(request);
 		
+		String appId = request.getParameter("appId") != null ? request.getParameter("appId") : "";
+		String secret = request.getParameter("secret") != null ? request.getParameter("secret") : "";
+
 		if(!appId.matches("[a-zA-Z0-9]+")){
 			setError(getError()+i18nResolver.getText(APP_ID_ERROR_1));
 		} else if(appId.length() != 20){
@@ -101,7 +105,7 @@ public class Admin extends JiraWebActionSupport{
 		return this.error;
 	}
 
-	public void setError(String error) {
+	private void setError(String error) {
 		this.error = error;
 	}
 

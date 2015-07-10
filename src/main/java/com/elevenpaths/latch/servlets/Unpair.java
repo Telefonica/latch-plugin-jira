@@ -6,6 +6,7 @@ import webwork.action.ServletActionContext;
 
 import com.atlassian.jira.component.ComponentAccessor;
 import com.atlassian.jira.security.JiraAuthenticationContext;
+import com.atlassian.jira.security.xsrf.XsrfTokenGenerator;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.sal.api.message.I18nResolver;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
@@ -48,11 +49,7 @@ public class Unpair extends JiraWebActionSupport{
 		
 		String username = Utilities.getUsername(jiraAuthenticationContext);
 		if(!username.equals("")){
-			if (Utilities.isPaired(username, modelo)) {
-				if(request.getMethod().equals("POST")){
-					unpair(username);
-				}
-			}else{
+			if (!Utilities.isPaired(username, modelo)) {
 				Utilities.redirectTo(LATCH_INDEX);
 			}
 		}else{
@@ -60,14 +57,27 @@ public class Unpair extends JiraWebActionSupport{
 		}
 	}
 	
+	@Override
+	protected String doExecute() throws Exception {
+		if(request.getMethod().equals("POST")){
+			unpair();
+		}
+		return SUCCESS;
+	}
+	
 	/**
 	 * Call to the api to unpair the user
 	 * regardless of the response, the user is deleted
 	 * @param username who is gonna unpair
 	 */
-	private void unpair(String username){
+	@com.atlassian.jira.security.xsrf.RequiresXsrfCheck
+	private void unpair(){
+		XsrfTokenGenerator xsrfTokenGenerator = ComponentAccessor.getComponentOfType(XsrfTokenGenerator.class);
+		xsrfTokenGenerator.generateToken(request);
 		
+		String username = Utilities.getUsername(jiraAuthenticationContext);
 		String accountId = modelo.getAccountId(username);
+		
 		if(accountId != null){
 			
 			String appId = modelo.getAppId();

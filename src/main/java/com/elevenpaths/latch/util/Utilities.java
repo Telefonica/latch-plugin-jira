@@ -32,8 +32,8 @@ public class Utilities {
 		}
 		try {
 			redirect.getHttpResponse().sendRedirect(nextUrl);
-		} catch (IOException e) { }
-		catch(IllegalStateException e){ }
+		} catch (IOException e) { 
+		} catch(IllegalStateException e){ }
 	}
 	
 	/**
@@ -44,8 +44,8 @@ public class Utilities {
 		String contextPath = redirect.getHttpRequest().getContextPath();
 		try {
 			redirect.getHttpResponse().sendRedirect(contextPath);
-		} catch (IOException e) { }
-		catch(IllegalStateException e){ }
+		} catch (IOException e) { 
+		} catch(IllegalStateException e){ }
 	}
 	
 	

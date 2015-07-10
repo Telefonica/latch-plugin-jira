@@ -1,3 +1,4 @@
+#htmlSafe()
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -21,7 +22,7 @@
 				<p>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmUnpairText1")</p>
 		    </div>
 		
-			<form id="admin" class="aui" method="POST">
+			<form class="aui" method="POST"  action="/jira/secure/LatchUnpair.jspa?atl_token=${atl_token}">
 	        	<div class="field-group">
 	            	<input type="submit" name="button" value="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmUnpairButton')" class="button">
 	       		</div>

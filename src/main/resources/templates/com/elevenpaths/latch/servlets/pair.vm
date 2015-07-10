@@ -1,5 +1,4 @@
-
-#enable_html_escaping()
+#htmlSafe()
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -18,7 +17,7 @@
 		    	<span>$action.getError()</span>
 		    </div>
 
-			<form class="aui" method="POST">
+			<form class="aui" method="POST" action="/jira/secure/LatchPair.jspa?atl_token=${atl_token}">
 				<div class="field-group">
 					<input type="text" id="token" name="token" class="text" placeholder="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmPairInput')">
 	            	<input type="submit" value="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmPairButton')" class="button">

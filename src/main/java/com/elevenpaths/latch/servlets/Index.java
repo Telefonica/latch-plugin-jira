@@ -6,6 +6,7 @@ import webwork.action.ServletActionContext;
 
 import com.atlassian.jira.component.ComponentAccessor;
 import com.atlassian.jira.security.JiraAuthenticationContext;
+import com.atlassian.jira.security.xsrf.XsrfTokenGenerator;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 import com.elevenpaths.latch.modelo.LatchModel;
@@ -44,14 +45,26 @@ public class Index extends JiraWebActionSupport{
 		if(!username.equals("")){
 			if(Utilities.isPaired(username, model)){
 				Utilities.redirectTo(LATCH_UNPAIR);
-			}else{
-				if(request.getMethod().equals("POST")){
-					Utilities.redirectTo(LATCH_PAIR);
-				}
 			}
 		}else{
 			Utilities.redirectToLogin();
 		}
+	}
+	
+	
+	@Override
+	protected String doExecute() throws Exception {
+		if(request.getMethod().equals("POST")){
+			toPair();
+		}
+		return SUCCESS;
+	}
+	
+	@com.atlassian.jira.security.xsrf.RequiresXsrfCheck
+	private void toPair(){
+		XsrfTokenGenerator xsrfTokenGenerator = ComponentAccessor.getComponentOfType(XsrfTokenGenerator.class);
+		xsrfTokenGenerator.generateToken(request);
+		Utilities.redirectTo(LATCH_PAIR);
 	}
 
 }
