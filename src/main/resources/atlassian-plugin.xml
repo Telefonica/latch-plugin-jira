@@ -49,8 +49,7 @@
         <resource name="view" type="velocity" location="view/details-profile.vm"/>
         <context-provider class="com.elevenpaths.latch.servlets.Index"/>
     </web-panel>
-    -->
-
+    
     <web-section key="latch-index" location="webpanels.user.profile.summary.details">
         <label>Latch</label> 
     </web-section>
@@ -59,7 +58,12 @@
         <label>Latch</label>
         <link linkId="my_links_link" absolute="false">/secure/LatchIndex.jspa</link>
     </web-item>
+    -->
 
+    <web-item key="latch-info" name="Link to Latch info" section="system.user.options/personal" >
+        <label>Latch</label>
+        <link linkId="my_links_link" absolute="false">/secure/LatchIndex.jspa</link>
+    </web-item>
 
     <web-section key="latch-section" location="system.admin">
         <label>Latch</label> 
