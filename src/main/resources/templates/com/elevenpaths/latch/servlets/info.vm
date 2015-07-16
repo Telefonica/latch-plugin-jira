@@ -13,7 +13,7 @@
 	    	<h2>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmInfoNotProtected")</h2>
 	    </div>
 	    
-	    <form method="POST" action="/jira/secure/LatchIndex.jspa?atl_token=${atl_token}">
+	    <form method="POST">
 	    	<input type="submit" value="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoButton')" id="buttonToPair">
 	    </form>
 	    

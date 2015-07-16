@@ -42,23 +42,7 @@
                 <view name="success">/templates/com/elevenpaths/latch/servlets/error.vm</view>
             </action>
         </actions>
-    </webwork1>   
-
-    <!--
-    <web-panel key="custom-user-details" location="webpanels.user.profile.summary.details" weight="100">
-        <resource name="view" type="velocity" location="view/details-profile.vm"/>
-        <context-provider class="com.elevenpaths.latch.servlets.Index"/>
-    </web-panel>
-    
-    <web-section key="latch-index" location="webpanels.user.profile.summary.details">
-        <label>Latch</label> 
-    </web-section>
-
-    <web-item key="latch-info" name="Link to Latch info" section="webpanels.user.profile.summary.details/latch-index">
-        <label>Latch</label>
-        <link linkId="my_links_link" absolute="false">/secure/LatchIndex.jspa</link>
-    </web-item>
-    -->
+    </webwork1>
 
     <web-item key="latch-info" name="Link to Latch info" section="system.user.options/personal" >
         <label>Latch</label>
