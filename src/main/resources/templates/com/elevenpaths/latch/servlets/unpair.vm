@@ -22,7 +22,7 @@
 				<p>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmUnpairText1")</p>
 		    </div>
 		
-			<form class="aui" method="POST"  action="/jira/secure/LatchUnpair.jspa?atl_token=${atl_token}">
+			<form class="aui" method="POST">
 	        	<div class="field-group">
 	            	<input type="submit" name="button" value="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmUnpairButton')" class="button">
 	       		</div>

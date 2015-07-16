@@ -22,7 +22,7 @@
 				<p>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmConfigureTexto1")</p>
 		    </div>		    
 		    		
-			<form class="aui" method="POST" action="/jira/secure/LatchConfigure.jspa?atl_token=${atl_token}"> 
+			<form class="aui" method="POST"> 
 				<input type="hidden" name="atl_token" value="$atl_token" />
 				<div class="field-group">
 		             <label for="appId">$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmConfigureAppId")</label>
