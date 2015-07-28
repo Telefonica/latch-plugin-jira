@@ -1,0 +1,23 @@
+@CHARSET "ISO-8859-1";
+#container{
+	width: 640px; 
+	height: auto; 
+	margin-left: 30px; 
+	margin-top: 30px; 
+	margin-bottom: 30px;
+}
+.texts{
+	color: #716f61;
+	text-align: justify;
+	margin-top: 15px;
+}
+.textTitles{
+	font-size: 1em;
+}
+#errorLatch{
+	color: red;
+	font-style: bold;
+	margin-top: 35px;
+	margin-bottom: 35px;
+	font-size: 16px;
+}
