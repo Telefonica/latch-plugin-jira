@@ -13,34 +13,96 @@
     <!-- add our web resources -->
     <web-resource key="latch-plugin-jira-resources" name="latch-plugin-jira Web Resources">
         <dependency>com.atlassian.auiplugin:ajs</dependency>
-        <resource type="download" name="css/" location="css/"/>
+
+        <resource name="css/" type="download" location="css/"/>
+            
+
+        <!--<resource name="/css/info.css" type="download" location="/templates/com/elevenpaths/latch/css/info.css">
+            <context>atl.admin</context>
+            <context>atl.general</context>
+        </resource>
+
+        <resource name="/css/pair.css" type="download" location="/templates/com/elevenpaths/latch/css/pair.css">
+            <context>atl.admin</context>
+            <context>atl.general</context>
+        </resource>
+
+        <resource name="/css/unpair.css" type="download" location="/templates/com/elevenpaths/latch/css/unpair.css">
+            <context>atl.admin</context>
+            <context>atl.general</context>
+        </resource>-->
+
         <resource type="download" name="images/" location="images/"/>
+
+        <!--
+
+        <resource type="download" name="css/configure.css" location="css/configure.css">
+            <property key="content-type" value="text/css"/>
+        </resource>
+        <resource type="download" name="css/info.css" location="css/info.css">
+            <property key="content-type" value="text/css"/>
+        </resource>
+        <resource type="download" name="css/pair.css" location="css/pair.css">
+            <property key="content-type" value="text/css"/>
+        </resource>
+        <resource type="download" name="css/unpair.css" location="css/unpair.css">
+            <property key="content-type" value="text/css"/>
+        </resource>
+
+        <resource type="download" name="/images/how_02.png" location="/images/how_02.png">
+            <param name="content-type" value="image/png"/>
+        </resource>
+        <resource type="download" name="/images/img1-large.png" location="/images/img1-large.png">
+            <param name="content-type" value="image/png"/>
+        </resource> 
+        <resource type="download" name="/images/img2-large.png" location="/images/img2-large.png">
+            <param name="content-type" value="image/png"/>
+        </resource> 
+        <resource type="download" name="/images/img4-large.png" location="/images/img4-large.png">
+            <param name="content-type" value="image/png"/>
+        </resource> 
+        <resource type="download" name="/images/img5-large.png" location="/images/img5-large.png">
+            <param name="content-type" value="image/png"/>
+        </resource> 
+        <resource type="download" name="/images/pair_01.png" location="/images/pair_01.png">
+            <param name="content-type" value="image/png"/>
+        </resource> 
+        <resource type="download" name="/images/pair_04.png" location="/images/pair_04.png">
+            <param name="content-type" value="image/png"/>
+        </resource>    
+
+        -->
+
         <context>latch-plugin-jira</context>
     </web-resource>
 
     <webwork1 key="newViews" name="Views" class="java.lang.Object">
         <actions>
             <action name="com.elevenpaths.latch.servlets.Admin" alias="LatchConfigure">
-                <view name="success">/templates/com/elevenpaths/latch/servlets/configure.vm</view>
+                <view name="success">/views/configure.vm</view>
             </action>
 
             <action name="com.elevenpaths.latch.servlets.Index" alias="LatchIndex">
-                <view name="success">/templates/com/elevenpaths/latch/servlets/info.vm</view>
+                <view name="success">/views/info.vm</view>
             </action>
 
             <action name="com.elevenpaths.latch.servlets.Pair" alias="LatchPair">
-                <view name="success">/templates/com/elevenpaths/latch/servlets/pair.vm</view>
+                <view name="success">/views/pair.vm</view>
             </action>
 
             <action name="com.elevenpaths.latch.servlets.Unpair" alias="LatchUnpair">
-                <view name="success">/templates/com/elevenpaths/latch/servlets/unpair.vm</view>
+                <view name="success">/views/unpair.vm</view>
             </action>
+
+        <!--
             <action name="com.elevenpaths.latch.servlets.Otp" alias="LatchTwoFactor">
                 <view name="success">/templates/com/elevenpaths/latch/servlets/otp.vm</view>
             </action>
             <action name="com.elevenpaths.latch.servlets.Error" alias="LatchError">
                 <view name="success">/templates/com/elevenpaths/latch/servlets/error.vm</view>
             </action>
+
+        -->
         </actions>
     </webwork1>
 

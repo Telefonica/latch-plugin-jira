@@ -31,7 +31,9 @@ public class Unpair extends JiraWebActionSupport{
 
 	/**
 	 * Constructor
-	 * @param pluginSettingsFactory
+	 * @param pluginSettingsFactory object to save data
+	 * @param userManager manage users of JIRA
+	 * @param i18nResolver translate
 	 */
 	public Unpair(PluginSettingsFactory pluginSettingsFactory, I18nResolver i18nResolver) {
 		this.modelo = new LatchModel(pluginSettingsFactory);
@@ -40,9 +42,6 @@ public class Unpair extends JiraWebActionSupport{
 		this.jiraAuthenticationContext = ComponentAccessor.getJiraAuthenticationContext();
 	}
 	
-	/**
-	 * 
-	 */
 	@Override
 	protected void doValidation() {
 		this.error = "";
@@ -65,11 +64,6 @@ public class Unpair extends JiraWebActionSupport{
 		return SUCCESS;
 	}
 	
-	/**
-	 * Call to the api to unpair the user
-	 * regardless of the response, the user is deleted
-	 * @param username who is gonna unpair
-	 */
 	@com.atlassian.jira.security.xsrf.RequiresXsrfCheck
 	private void unpair(){
 		XsrfTokenGenerator xsrfTokenGenerator = ComponentAccessor.getComponentOfType(XsrfTokenGenerator.class);

@@ -33,8 +33,9 @@ public class Admin extends JiraWebActionSupport{
 
 	/**
 	 * Constructor
-	 * @param pluginSettingsFactory
-	 * @param userManager
+	 * @param pluginSettingsFactory object to save data
+	 * @param userManager manage users of JIRA
+	 * @param i18nResolver translate
 	 */
 	public Admin( PluginSettingsFactory pluginSettingsFactory, UserManager userManager, I18nResolver i18nResolver) {
 		this.modelo = new LatchModel(pluginSettingsFactory);

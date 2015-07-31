@@ -25,8 +25,8 @@ public class Index extends JiraWebActionSupport{
 	private final String LATCH_UNPAIR = "/secure/LatchUnpair.jspa";
 
 	/**
-	 * Constructor
-	 * @param pluginSettingsFactory
+	 * Constructor.
+	 * @param pluginSettingsFactory object to save data
 	 */
 	public Index( PluginSettingsFactory pluginSettingsFactory) {
 		this.request = ServletActionContext.getRequest();
@@ -34,11 +34,6 @@ public class Index extends JiraWebActionSupport{
 		this.jiraAuthenticationContext = ComponentAccessor.getJiraAuthenticationContext();
 	}
 	
-	/**
-	 * check if the user is logged
-	 * then check if the user is paired
-	 * if request method is post, redirect to pair view
-	 */
 	@Override
 	protected void doValidation() {
 		String username = Utilities.getUsername(jiraAuthenticationContext);

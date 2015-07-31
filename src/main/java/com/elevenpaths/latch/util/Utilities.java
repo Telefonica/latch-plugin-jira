@@ -14,6 +14,7 @@ public class Utilities {
 	/**
      * check if the user is paired with latch
      * @param username user logged currently
+     * @param model it saves data
      * @return if is paired or not
      */
     public static boolean isPaired(String username, LatchModel model){
@@ -22,7 +23,7 @@ public class Utilities {
     
 	/**
 	 * Redirect to another page
-	 * @param path where the user goes
+	 * @param nextUrl where the user goes
 	 */
 	public static void redirectTo(String nextUrl) {
 		JiraWebActionSupport redirect = new JiraWebActionSupport();
@@ -51,6 +52,8 @@ public class Utilities {
 	
 	/**
 	 * check if the current user is the admin
+	 * @param jiraAuthenticationContext get current user
+	 * @param userManager check if user is admin
 	 * @return if the user is admin or not
 	 */
 	public static boolean isAdmin(JiraAuthenticationContext jiraAuthenticationContext, UserManager userManager){
@@ -66,6 +69,7 @@ public class Utilities {
 	
 	/**
      * check if exists a logged user
+     * @param jiraAuthenticationContext get current user
      * @return the name of the user logged, if not exists return a empty string
      */
     public static String getUsername(JiraAuthenticationContext jiraAuthenticationContext){
