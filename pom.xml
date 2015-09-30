@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <scm>
+        <connection>scm:git:https://github.com/iserranos/latch-plugin-jira</connection>
+        <developerConnection>scm:git:https://github.com/iserranos/latch-plugin-jira</developerConnection>
+        <url>https://github.com/iserranos/latch-plugin-jira</url>
+    </scm>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.elevenpaths.latch</groupId>
     <artifactId>latch-plugin-jira</artifactId>
     <version>1.0-SNAPSHOT</version>
-
-    <scm>
-        <connection>scm:git:https://github.com/iserranos/latch-plugin-jira</connection>
-        <developerConnection>scm:git:https://github.com/iserranos/latch-plugin-jira</developerConnection>
-        <tag>latch-plugin-jira-1.0</tag>
-        <url>https://github.com/iserranos/latch-plugin-jira</url>
-    </scm>
 
     <organization>
         <name>ElevenPaths</name>
@@ -131,8 +128,8 @@
     </build>
 
     <properties>
-        <jira.version>6.4.4</jira.version>
-        <amps.version>5.0.13</amps.version>
+        <jira.version>6.4.12</jira.version>
+        <amps.version>5.1.10</amps.version>
         <plugin.testrunner.version>1.2.3</plugin.testrunner.version>
 		<!-- TestKit version 5.x for JIRA 5.x, 6.x for JIRA 6.x -->
 		<testkit.version>5.2.26</testkit.version>
