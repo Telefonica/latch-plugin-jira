@@ -21,7 +21,6 @@ public class LatchModel {
 	}
 
 	// ACCOUNTID
-
 	/**
 	 * 
 	 * @param username
@@ -31,6 +30,7 @@ public class LatchModel {
 	public String getAccountId(String username) {
 		return (String) pluginSettings.get(PLUGIN_STORAGE_ACCOUNTID + username);
 	}
+
 
 	/**
 	 * assigns an accountId to a user
@@ -62,6 +62,7 @@ public class LatchModel {
 		return (String) pluginSettings.get(PLUGIN_STORAGE_APP_ID);
 	}
 
+
 	/**
 	 * save the appId
 	 * 
@@ -72,11 +73,6 @@ public class LatchModel {
 	}
 
 	// SECRET
-
-	/**
-	 * 
-	 * @return the secret value which is used to configure the plugin
-	 */
 	public String getSecret() {
 		return (String) pluginSettings.get(PLUGIN_STORAGE_SECRET);
 	}

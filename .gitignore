@@ -13,3 +13,5 @@ hs_err_pid*
 /target/
 .classpath
 .project
+.gitignore
+/.settings/org.eclipse.jdt.core.prefs

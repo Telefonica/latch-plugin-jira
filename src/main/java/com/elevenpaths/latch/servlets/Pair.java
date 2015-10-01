@@ -34,8 +34,11 @@ public class Pair extends JiraWebActionSupport {
 
 	/**
 	 * Constructor
-	 * @param pluginSettingsFactory object to save data
-	 * @param i18nResolver translate
+	 * 
+	 * @param pluginSettingsFactory
+	 *            object to save data
+	 * @param i18nResolver
+	 *            translate
 	 */
 	public Pair(PluginSettingsFactory pluginSettingsFactory, I18nResolver i18nResolver) {
 		this.modelo = new LatchModel(pluginSettingsFactory);
@@ -80,8 +83,7 @@ public class Pair extends JiraWebActionSupport {
 		XsrfTokenGenerator xsrfTokenGenerator = ComponentAccessor.getComponentOfType(XsrfTokenGenerator.class);
 		xsrfTokenGenerator.generateToken(request);
 
-		// String username = Utilities.getUsername(jiraAuthenticationContext);
-		String username = "admin";
+		String username = Utilities.getUsername(jiraAuthenticationContext);
 
 		if (modelo.getAccountId(username) == null) {
 
