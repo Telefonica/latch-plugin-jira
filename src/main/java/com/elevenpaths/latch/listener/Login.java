@@ -138,8 +138,10 @@ public class Login implements InitializingBean, DisposableBean {
 										e.printStackTrace();
 									}
 
-								} /*
-									 * else if (status.equals("off")) {
+
+								}  /*
+									 * else if (status.equals("on")) {
+
 									 * JsonObject two_factor = null;
 									 * 
 									 * if (applicationId.has("two_factor")) {

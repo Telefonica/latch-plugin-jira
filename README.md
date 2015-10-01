@@ -16,19 +16,19 @@
 
 * From the side menu in developers area, the user can access the **"Documentation & SDKs"** section. Inside it, there is a **"SDKs and Plugins"** menu. Links to different SDKs in different programming languages and plugins developed so far, are shown.
 
-* Also you can download the plugin getting the executable of our [GitHub repository](https://github.com/ElevenPaths/latch-plugin-jira"https://github.com/ElevenPaths/latch-plugin-jira") in Releases section.
+* Also you can download the plugin by getting the executable from our [GitHub repository](https://github.com/ElevenPaths/latch-plugin-jira"https://github.com/ElevenPaths/latch-plugin-jira") inside Releases section.
 
 
 ##INSTALLING THE PLUGIN IN JIRA
-* Once the administrator has downloaded the plugin, it has to be added as a plugin in its administration panel in Jira. Click on **"Adds-on"** and **"Manage adds-on"**. Clicking on the **"Upload add-on"** link it will show a form where you can browse and select previously downloaded JAR file.	
+* Once the administrator has downloaded the plugin, it has to be added as a plugin on the administration panel in Jira. Click on **"Adds-on"** and **"Manage adds-on"**, then click on the **"Upload add-on"** link that will show a form where you can browse and select the downloaded JAR file.	
 
-* Go to **"Configure Latch"**, inside **"Adds-on"** and introduce **"Application ID"** and **"Secret"** previously generated. The administrator can now save the changes clicking on **"Save Changes"**.
+* Go to **"Configure Latch"**, inside **"Adds-on"** and introduce the **"Application ID"** and **"Secret"** previously obtained. Save the changes by clicking on **"Save Changes"**.
 
-* From now on, on user's profile options, a new section will appear called Latch, where the token generated from the app should be introduced.
+* From now on, on user's profile options, a new section,  called Latch, will appear. Tokens generated in the app should be introduced there.
 
 
 ##UNINSTALLING THE PLUGIN IN JIRA
-* To remove the plugin, the administrator has to click on **"Manage adds-on"** and press the **"Uninstall"** button below the **"latch-plugin-jira"** plugin, and then wait until Jira finish.
+* To remove the plugin, the administrator has to click on **"Manage adds-on"** and press the **"Uninstall"** button below the **"latch-plugin-jira"** plugin, then wait until Jira finish.
 
 
 ##USE OF LATCH MODULE FOR THE USERS
@@ -37,7 +37,7 @@
 ###Pairing a user in Jira
 The user needs the Latch application installed on the phone, and follow these steps:
 
-* **Step 1:** Logged in your own Jira account and go to **"Latch"** in your profile options.
+* **Step 1:** Log in your own Jira account and go to **"Latch"** in your profile options.
 
 * **Step 2:** From the Latch app on the phone, the user has to generate the token, pressing on **"Add a new service"** at the bottom of the application, and pressing **"Generate new code"** will take the user to a new screen where the pairing code will be displayed.
 
