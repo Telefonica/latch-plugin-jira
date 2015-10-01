@@ -9,6 +9,20 @@
         <url>https://github.com/iserranos/latch-plugin-jira</url>
     </scm>
 
+    <distributionManagement>
+        <repository>
+            <id>deployment_snapshot</id>
+            <name>Internal Releases</name>
+            <url>http://maven.11paths.local:8081/nexus/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+      </repository>
+    </distributionManagement>
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.elevenpaths.latch</groupId>
     <artifactId>latch-plugin-jira</artifactId>
