@@ -23,12 +23,18 @@ public class Index extends JiraWebActionSupport {
 	private final String LATCH_PAIR = "/secure/LatchPair.jspa";
 	private final String LATCH_UNPAIR = "/secure/LatchUnpair.jspa";
 
+
+	/**
+	 * Constructor.
+	 * @param pluginSettingsFactory object to save data
+	 */
+
 	public Index(PluginSettingsFactory pluginSettingsFactory) {
 		this.request = ServletActionContext.getRequest();
 		this.model = new LatchModel(pluginSettingsFactory);
 		this.jiraAuthenticationContext = ComponentAccessor.getJiraAuthenticationContext();
 	}
-
+	
 	@Override
 	protected void doValidation() {
 		String username = Utilities.getUsername(jiraAuthenticationContext);

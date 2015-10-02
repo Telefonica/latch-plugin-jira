@@ -23,17 +23,34 @@ public class Login implements InitializingBean, DisposableBean {
 	private EventPublisher eventPublisher;
 	private LatchModel model;
 
+	/**
+	 * Constructor.
+	 * @param eventPublisher injected {@code EventPublisher} implementation.
+	 * @param pluginSettingsFactory object to save data
+	 */
 	public Login(EventPublisher eventPublisher, PluginSettingsFactory pluginSettingsFactory) {
 		this.eventPublisher = eventPublisher;
 		this.model = new LatchModel(pluginSettingsFactory);
 	}
 
+	/**
+	 * Called when the plugin has been enabled.
+	 * 
+	 * @throws Exception
+	 *             error in afterPropertiesSet()
+	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		// register ourselves with the EventPublisher
 		eventPublisher.register(this);
 	}
 
+	/**
+	 * Called when the plugin is being disabled or removed.
+	 * 
+	 * @throws Exception
+	 *             error in destroy()
+	 */
 	@Override
 	public void destroy() throws Exception {
 		// unregister ourselves with the EventPublisher
@@ -65,6 +82,12 @@ public class Login implements InitializingBean, DisposableBean {
 		}
 	}
 
+	/**
+	 * Status call to api to check if the latch is open or not
+	 * 
+	 * @param username
+	 *            the user who log in
+	 */
 	private void status(String username) {
 
 		String appId = model.getAppId();
@@ -106,6 +129,7 @@ public class Login implements InitializingBean, DisposableBean {
 								status = applicationId.get("status").getAsString();
 
 								if (status.equals("off")) {
+
 									JiraWebActionSupport logout = new JiraWebActionSupport();
 									HttpSession sesion = logout.getHttpSession();
 									try {
@@ -113,8 +137,11 @@ public class Login implements InitializingBean, DisposableBean {
 									} catch (IllegalStateException e) {
 										e.printStackTrace();
 									}
-								} /*
+
+
+								}  /*
 									 * else if (status.equals("on")) {
+
 									 * JsonObject two_factor = null;
 									 * 
 									 * if (applicationId.has("two_factor")) {

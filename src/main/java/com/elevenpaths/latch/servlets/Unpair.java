@@ -29,6 +29,12 @@ public class Unpair extends JiraWebActionSupport {
 
 	private final String LATCH_INDEX = "/secure/LatchIndex.jspa";
 
+
+	/**
+	 * Constructor
+	 * @param pluginSettingsFactory object to save data
+	 * @param i18nResolver translate
+	 */
 	public Unpair(PluginSettingsFactory pluginSettingsFactory, I18nResolver i18nResolver) {
 		this.modelo = new LatchModel(pluginSettingsFactory);
 		this.request = ServletActionContext.getRequest();
@@ -57,7 +63,7 @@ public class Unpair extends JiraWebActionSupport {
 		}
 		return SUCCESS;
 	}
-
+	
 	@com.atlassian.jira.security.xsrf.RequiresXsrfCheck
 	private void unpair() {
 		XsrfTokenGenerator xsrfTokenGenerator = ComponentAccessor.getComponentOfType(XsrfTokenGenerator.class);

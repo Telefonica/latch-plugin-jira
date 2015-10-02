@@ -102,6 +102,12 @@
                 <version>${amps.version}</version>
                 <extensions>true</extensions>
                 <configuration>
+                    <instructions>
+                        <Import-Package>
+                            com.elevenpaths.latch;version="1.0.3"
+                        </Import-Package>
+                        <CONF_COMM/>
+                    </instructions>
                     <productVersion>${jira.version}</productVersion>
                     <productDataVersion>${jira.version}</productDataVersion>
 					<!-- Uncomment to install TestKit backdoor in JIRA. -->

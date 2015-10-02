@@ -32,6 +32,14 @@ public class Pair extends JiraWebActionSupport {
 
 	private final String LATCH_UNPAIR = "/secure/LatchUnpair.jspa";
 
+	/**
+	 * Constructor
+	 * 
+	 * @param pluginSettingsFactory
+	 *            object to save data
+	 * @param i18nResolver
+	 *            translate
+	 */
 	public Pair(PluginSettingsFactory pluginSettingsFactory, I18nResolver i18nResolver) {
 		this.modelo = new LatchModel(pluginSettingsFactory);
 		this.request = ServletActionContext.getRequest();
@@ -95,7 +103,6 @@ public class Pair extends JiraWebActionSupport {
 
 				if (error != null) {
 					switch (error.getCode()) {
-
 					case 205:
 						JsonObject jObject = pairResponse.getData();
 						String accountId = jObject.get("accountId").getAsString();

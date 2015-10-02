@@ -30,6 +30,16 @@ public class Admin extends JiraWebActionSupport {
 	private final String SECRET_ERROR_1 = "com.elevenpaths.latch.latch-plugin-jira.secretError1";
 	private final String SECRET_ERROR_2 = "com.elevenpaths.latch.latch-plugin-jira.secretError2";
 
+	/**
+	 * Constructor
+	 * 
+	 * @param pluginSettingsFactory
+	 *            object to save data
+	 * @param userManager
+	 *            manage users of JIRA
+	 * @param i18nResolver
+	 *            translate
+	 */
 	public Admin(PluginSettingsFactory pluginSettingsFactory, UserManager userManager, I18nResolver i18nResolver) {
 		this.modelo = new LatchModel(pluginSettingsFactory);
 		this.request = ServletActionContext.getRequest();

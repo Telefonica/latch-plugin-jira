@@ -1,0 +1,33 @@
+#htmlSafe()
+$webResourceManager.requireResource("com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources")
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<meta name="decorator" content="atl.general">
+		<title>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmUnpairTitle")</title>
+		<link rel="stylesheet" type="text/css" href="$req.contextPath/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/css/style.css">
+	</head>
+	<body>
+
+		<div id="container">
+		
+			<div>
+		    	<h2>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmUnpairProtected")</h2>
+		    </div>
+
+		    <div id="errorLatch">
+		    	<span>$action.getError()</span>
+		    </div>
+		    
+		    <div class="texts">
+				<p>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmUnpairText1")</p>
+		    </div>
+		
+			<form class="aui" method="POST">
+	        	<div class="field-group">
+	            	<input type="submit" name="button" value="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmUnpairButton')" class="button">
+	       		</div>
+	    	</form>
+		</div>
+	</body>
+</html>
