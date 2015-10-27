@@ -100,7 +100,6 @@ public class Pair extends JiraWebActionSupport {
 				}
 
 				com.elevenpaths.latch.Error error = pairResponse.getError();
-
 				if (error != null) {
 					switch (error.getCode()) {
 					case 205:
@@ -120,9 +119,13 @@ public class Pair extends JiraWebActionSupport {
 					}
 				} else {
 					JsonObject jObject = pairResponse.getData();
-					String accountId = jObject.get("accountId").getAsString();
-					modelo.setAccountId(username, accountId);
-					Utilities.redirectTo(LATCH_UNPAIR);
+					if(jObject != null){
+						String accountId = jObject.get("accountId").getAsString();
+						modelo.setAccountId(username, accountId);
+						Utilities.redirectTo(LATCH_UNPAIR);
+					}else{
+						setError(getError() + i18nResolver.getText(PAIR_ERROR_CONF));
+					}
 				}
 			} else {
 				setError(getError() + i18nResolver.getText(PAIR_ERROR_CONF));

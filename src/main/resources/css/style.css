@@ -13,7 +13,7 @@
 	margin-top: 30px; 
 	margin-bottom: 30px;
 }
-.texts{
+.textsLatch{
 	color: #716f61;
 	text-align: justify;
 	margin-top: 15px;
@@ -37,16 +37,16 @@
 	border-radius: 4px !important;
 	font-size: 12px;
 	background: no-repeat #00b9be 8px 14px;
-	background-size: 15px 15px;"
+	background-size: 15px 15px;
 }
 #tableDiv{
-	margin-left: 200px;
+	margin-left: 100px;
 }
 #tableDiv-pair{
 	margin-left: 100px;
 	margin-right: 100px;
 }
-.images{
+.imagesLatch{
 	width: 175px; 
 	height: auto;
 }

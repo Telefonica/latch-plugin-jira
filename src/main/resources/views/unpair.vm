@@ -19,7 +19,7 @@ $webResourceManager.requireResource("com.elevenpaths.latch.latch-plugin-jira:lat
 		    	<span>$action.getError()</span>
 		    </div>
 		    
-		    <div class="texts">
+		    <div class="textsLatch">
 				<p>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmUnpairText1")</p>
 		    </div>
 		

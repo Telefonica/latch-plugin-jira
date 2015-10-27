@@ -25,7 +25,7 @@ $webResourceManager.requireResource("com.elevenpaths.latch.latch-plugin-jira:lat
 	        	</div> 
 			</form>
 			
-			<div class="texts">
+			<div class="textsLatch">
 		    	<p class="textTitles"><strong>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTitleInfo")</strong></p>
 				<p>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTextInfo1")</p>
 		    </div>
@@ -33,24 +33,24 @@ $webResourceManager.requireResource("com.elevenpaths.latch.latch-plugin-jira:lat
 			<table id="tableDiv-pair">
 		    	<tr>
 			    	<td>
-				    	<div id="image1Pair" class="images">
+				    	<div id="image1Pair" class="imagesLatch">
 				    		<div id="foto1" class="photos">
 				    			<img id="img1" class="img" src="$req.contextPath/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/pair_01.png" alt="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg1')" title="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg1')">
 				    		</div>
 				    		<div id="texto1">
-				    			<div class="texts">
+				    			<div class="textsLatch imagesLatch">
 				    				$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTextImg1")
 				    			</div>
 				    		</div>
 				    	</div>
 		    		</td>
 			    	<td>
-			    		<div id="image2" class="images">
+			    		<div id="image2" class="imagesLatch">
 				    		<div id="foto2" class="photos">
 				    			<img id="img2" class="img" src="$req.contextPath/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/img2-large.png" alt="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg2')" title="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg2')">
 				    		</div>
 				    		<div id="texto2">
-				    			<div class="texts">
+				    			<div class="textsLatch imagesLatch">
 				    				$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTextImg2")
 				    			</div>
 				    		</div>
@@ -59,24 +59,24 @@ $webResourceManager.requireResource("com.elevenpaths.latch.latch-plugin-jira:lat
 		    	</tr>
 		    	<tr>
 			    	<td>
-			    		<div id="image3Pair" class="images">
+			    		<div id="image3Pair" class="imagesLatch">
 				    		<div id="foto3" class="photos">
 				    			<img id="img3" class="img" src="$req.contextPath/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/how_02.png" alt="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg3')" title="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg3')">
 				    		</div>
 				    		<div id="texto3">
-				    			<div class="texts">
+				    			<div class="textsLatch imagesLatch">
 				    				$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTextImg3")
 				    			</div>
 				    		</div>
 				    	</div>
 			    	</td>
 			    	<td>
-			    		<div id="image4Pair" class="images">
+			    		<div id="image4Pair" class="imagesLatch">
 				    		<div id="foto4" class="photos">
 				    			<img id="img4" class="img" src ="$req.contextPath/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/pair_04.png" alt="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg4')" title="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg4')">
 				    		</div>
 				    		<div id="texto4">
-				    			<div class="texts">
+				    			<div class="textsLatch imagesLatch">
 				    				$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTextImg4")
 				    			</div>
 				    		</div>
