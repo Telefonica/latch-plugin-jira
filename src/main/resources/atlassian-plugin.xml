@@ -7,71 +7,14 @@
         <param name="plugin-logo">images/pluginLogo.png</param>
     </plugin-info>
 
-    <!-- add our i18n resource -->
     <resource type="i18n" name="i18n" location="latch-plugin-jira"/>
-    
-    <!-- add our web resources -->
+
     <web-resource key="latch-plugin-jira-resources" name="latch-plugin-jira Web Resources">
         <dependency>com.atlassian.auiplugin:ajs</dependency>
 
         <resource name="css/" type="download" location="css/"/>
-            
-
-        <!--<resource name="/css/info.css" type="download" location="/templates/com/elevenpaths/latch/css/info.css">
-            <context>atl.admin</context>
-            <context>atl.general</context>
-        </resource>
-
-        <resource name="/css/pair.css" type="download" location="/templates/com/elevenpaths/latch/css/pair.css">
-            <context>atl.admin</context>
-            <context>atl.general</context>
-        </resource>
-
-        <resource name="/css/unpair.css" type="download" location="/templates/com/elevenpaths/latch/css/unpair.css">
-            <context>atl.admin</context>
-            <context>atl.general</context>
-        </resource>-->
 
         <resource type="download" name="images/" location="images/"/>
-
-        <!--
-
-        <resource type="download" name="css/configure.css" location="css/configure.css">
-            <property key="content-type" value="text/css"/>
-        </resource>
-        <resource type="download" name="css/info.css" location="css/info.css">
-            <property key="content-type" value="text/css"/>
-        </resource>
-        <resource type="download" name="css/pair.css" location="css/pair.css">
-            <property key="content-type" value="text/css"/>
-        </resource>
-        <resource type="download" name="css/unpair.css" location="css/unpair.css">
-            <property key="content-type" value="text/css"/>
-        </resource>
-
-        <resource type="download" name="/images/how_02.png" location="/images/how_02.png">
-            <param name="content-type" value="image/png"/>
-        </resource>
-        <resource type="download" name="/images/img1-large.png" location="/images/img1-large.png">
-            <param name="content-type" value="image/png"/>
-        </resource> 
-        <resource type="download" name="/images/img2-large.png" location="/images/img2-large.png">
-            <param name="content-type" value="image/png"/>
-        </resource> 
-        <resource type="download" name="/images/img4-large.png" location="/images/img4-large.png">
-            <param name="content-type" value="image/png"/>
-        </resource> 
-        <resource type="download" name="/images/img5-large.png" location="/images/img5-large.png">
-            <param name="content-type" value="image/png"/>
-        </resource> 
-        <resource type="download" name="/images/pair_01.png" location="/images/pair_01.png">
-            <param name="content-type" value="image/png"/>
-        </resource> 
-        <resource type="download" name="/images/pair_04.png" location="/images/pair_04.png">
-            <param name="content-type" value="image/png"/>
-        </resource>    
-
-        -->
 
         <context>latch-plugin-jira</context>
     </web-resource>
@@ -93,16 +36,6 @@
             <action name="com.elevenpaths.latch.servlets.Unpair" alias="LatchUnpair">
                 <view name="success">/views/unpair.vm</view>
             </action>
-
-        <!--
-            <action name="com.elevenpaths.latch.servlets.Otp" alias="LatchTwoFactor">
-                <view name="success">/templates/com/elevenpaths/latch/servlets/otp.vm</view>
-            </action>
-            <action name="com.elevenpaths.latch.servlets.Error" alias="LatchError">
-                <view name="success">/templates/com/elevenpaths/latch/servlets/error.vm</view>
-            </action>
-
-        -->
         </actions>
     </webwork1>
 

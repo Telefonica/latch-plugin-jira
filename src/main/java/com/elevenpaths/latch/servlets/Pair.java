@@ -96,35 +96,38 @@ public class Pair extends JiraWebActionSupport {
 				LatchResponse pairResponse = null;
 				try {
 					pairResponse = latch.pair(token);
-				} catch (NullPointerException e) {
+				} catch (NullPointerException ignored) {
 				}
 
-				com.elevenpaths.latch.Error error = pairResponse.getError();
-				if (error != null) {
-					switch (error.getCode()) {
-					case 205:
+				com.elevenpaths.latch.Error error;
+				if (pairResponse != null) {
+					error = pairResponse.getError();
+					if (error != null) {
+						switch (error.getCode()) {
+							case 205:
+								JsonObject jObject = pairResponse.getData();
+								String accountId = jObject.get("accountId").getAsString();
+								modelo.setAccountId(username, accountId);
+								Utilities.redirectTo(LATCH_UNPAIR);
+								break;
+							case 206:
+								setError(getError() + i18nResolver.getText(PAIR_ERROR_206));
+								break;
+							case 102:
+								setError(getError() + i18nResolver.getText(PAIR_ERROR_CONF));
+								break;
+							default:
+								break;
+						}
+					} else {
 						JsonObject jObject = pairResponse.getData();
-						String accountId = jObject.get("accountId").getAsString();
-						modelo.setAccountId(username, accountId);
-						Utilities.redirectTo(LATCH_UNPAIR);
-						break;
-					case 206:
-						setError(getError() + i18nResolver.getText(PAIR_ERROR_206));
-						break;
-					case 102:
-						setError(getError() + i18nResolver.getText(PAIR_ERROR_CONF));
-						break;
-					default:
-						break;
-					}
-				} else {
-					JsonObject jObject = pairResponse.getData();
-					if(jObject != null){
-						String accountId = jObject.get("accountId").getAsString();
-						modelo.setAccountId(username, accountId);
-						Utilities.redirectTo(LATCH_UNPAIR);
-					}else{
-						setError(getError() + i18nResolver.getText(PAIR_ERROR_CONF));
+						if(jObject != null){
+							String accountId = jObject.get("accountId").getAsString();
+							modelo.setAccountId(username, accountId);
+							Utilities.redirectTo(LATCH_UNPAIR);
+						}else{
+							setError(getError() + i18nResolver.getText(PAIR_ERROR_CONF));
+						}
 					}
 				}
 			} else {

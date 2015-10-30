@@ -8,7 +8,6 @@ public class LatchModel {
 	private static final String PLUGIN_STORAGE_ACCOUNTID = "com.elevenpaths.latch.plugin.accountId.";
 	private static final String PLUGIN_STORAGE_APP_ID = "com.elevenpaths.latch.plugin.app_id";
 	private static final String PLUGIN_STORAGE_SECRET = "com.elevenpaths.latch.plugin.secret";
-	private final PluginSettingsFactory pluginSettingsFactory;
 	private final PluginSettings pluginSettings;
 
 	/**
@@ -16,8 +15,7 @@ public class LatchModel {
 	 * @param pluginSettingsFactory object to save data
 	 */
 	public LatchModel(PluginSettingsFactory pluginSettingsFactory) {
-		this.pluginSettingsFactory = pluginSettingsFactory;
-		this.pluginSettings = this.pluginSettingsFactory.createGlobalSettings();
+		this.pluginSettings = pluginSettingsFactory.createGlobalSettings();
 	}
 
 	// ACCOUNTID

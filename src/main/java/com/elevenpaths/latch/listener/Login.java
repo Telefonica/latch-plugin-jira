@@ -20,153 +20,132 @@ import org.springframework.beans.factory.InitializingBean;
 
 public class Login implements InitializingBean, DisposableBean {
 
-	private EventPublisher eventPublisher;
-	private LatchModel model;
+    private EventPublisher eventPublisher;
+    private LatchModel model;
 
-	/**
-	 * Constructor.
-	 * @param eventPublisher injected {@code EventPublisher} implementation.
-	 * @param pluginSettingsFactory object to save data
-	 */
-	public Login(EventPublisher eventPublisher, PluginSettingsFactory pluginSettingsFactory) {
-		this.eventPublisher = eventPublisher;
-		this.model = new LatchModel(pluginSettingsFactory);
-	}
+    /**
+     * Constructor.
+     *
+     * @param eventPublisher        injected {@code EventPublisher} implementation.
+     * @param pluginSettingsFactory object to save data
+     */
+    public Login(EventPublisher eventPublisher, PluginSettingsFactory pluginSettingsFactory) {
+        this.eventPublisher = eventPublisher;
+        this.model = new LatchModel(pluginSettingsFactory);
+    }
 
-	/**
-	 * Called when the plugin has been enabled.
-	 * 
-	 * @throws Exception
-	 *             error in afterPropertiesSet()
-	 */
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		// register ourselves with the EventPublisher
-		eventPublisher.register(this);
-	}
+    /**
+     * Called when the plugin has been enabled.
+     *
+     * @throws Exception error in afterPropertiesSet()
+     */
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        eventPublisher.register(this);
+    }
 
-	/**
-	 * Called when the plugin is being disabled or removed.
-	 * 
-	 * @throws Exception
-	 *             error in destroy()
-	 */
-	@Override
-	public void destroy() throws Exception {
-		// unregister ourselves with the EventPublisher
-		eventPublisher.unregister(this);
-	}
+    /**
+     * Called when the plugin is being disabled or removed.
+     *
+     * @throws Exception error in destroy()
+     */
+    @Override
+    public void destroy() throws Exception {
+        eventPublisher.unregister(this);
+    }
 
-	@EventListener
-	public void onUserEvent(UserEvent userEvent) {
-		int eventType = userEvent.getEventType();
+    @EventListener
+    public void onUserEvent(UserEvent userEvent) {
+        int eventType = userEvent.getEventType();
 
-		switch (eventType) {
-		case UserEventType.USER_LOGIN:
-			User user = userEvent.getUser();
-			String username = null;
-			if (user != null) {
-				username = user.getName();
-			} else {
-				return;
-			}
+        switch (eventType) {
+            case UserEventType.USER_LOGIN:
+                User user = userEvent.getUser();
+                String username;
+                if (user != null) {
+                    username = user.getName();
+                } else {
+                    return;
+                }
 
-			if (!Utilities.isPaired(username, model)) {
-				return;
-			}
-			status(username);
-			break;
-		case UserEventType.USER_LOGOUT:
-			Utilities.redirectTo("");
-			break;
-		}
-	}
+                if (!Utilities.isPaired(username, model)) {
+                    return;
+                }
+                status(username);
+                break;
+            case UserEventType.USER_LOGOUT:
+                Utilities.redirectTo("");
+                break;
+        }
+    }
 
-	/**
-	 * Status call to api to check if the latch is open or not
-	 * 
-	 * @param username
-	 *            the user who log in
-	 */
-	private void status(String username) {
+    /**
+     * Status call to api to check if the latch is open or not
+     *
+     * @param username the user who log in
+     */
+    private void status(String username) {
 
-		String appId = model.getAppId();
-		String secret = model.getSecret();
-		String accountId = model.getAccountId(username);
+        String appId = model.getAppId();
+        String secret = model.getSecret();
+        String accountId = model.getAccountId(username);
 
-		if (appId == null || secret == null || accountId == null) {
-			return;
-		}
+        if (appId == null || secret == null || accountId == null) {
+            return;
+        }
 
-		LatchApp latch = new LatchApp(appId, secret);
-		LatchResponse statusResponse = null;
-		try {
-			statusResponse = latch.status(accountId);
-		} catch (NullPointerException e) {
-			return;
-		}
+        LatchApp latch = new LatchApp(appId, secret);
+        LatchResponse statusResponse;
+        try {
+            statusResponse = latch.status(accountId);
+        } catch (NullPointerException e) {
+            return;
+        }
 
-		com.elevenpaths.latch.Error error = statusResponse.getError();
+        com.elevenpaths.latch.Error error = statusResponse.getError();
 
-		if (error == null) {
+        if (error == null) {
 
-			if (statusResponse != null) {
+            if (statusResponse != null) {
 
-				if (statusResponse.getData() != null) {
+                if (statusResponse.getData() != null) {
 
-					JsonObject jsonObject = (JsonObject) statusResponse.getData();
-					if (jsonObject.has("operations")) {
+                    JsonObject jsonObject = statusResponse.getData();
+                    if (jsonObject.has("operations")) {
 
-						JsonObject operations = jsonObject.getAsJsonObject("operations");
-						JsonObject applicationId = null;
+                        JsonObject operations = jsonObject.getAsJsonObject("operations");
+                        JsonObject applicationId;
 
-						if (operations.has(appId)) {
+                        if (operations.has(appId)) {
 
-							applicationId = operations.getAsJsonObject(appId);
-							String status = null;
+                            applicationId = operations.getAsJsonObject(appId);
+                            String status;
 
-							if (applicationId.has("status")) {
-								status = applicationId.get("status").getAsString();
+                            if (applicationId.has("status")) {
+                                status = applicationId.get("status").getAsString();
 
-								if (status.equals("off")) {
+                                if (status.equals("off")) {
 
-									JiraWebActionSupport logout = new JiraWebActionSupport();
-									HttpSession sesion = logout.getHttpSession();
-									try {
-										sesion.invalidate();
-									} catch (IllegalStateException e) {
-										e.printStackTrace();
-									}
-
-
-								}  /*
-									 * else if (status.equals("on")) {
-
-									 * JsonObject two_factor = null;
-									 * 
-									 * if (applicationId.has("two_factor")) {
-									 * two_factor =
-									 * applicationId.getAsJsonObject(
-									 * "two_factor"); String token = null;
-									 * 
-									 * if (two_factor.has("token")) { token =
-									 * two_factor.get("token").getAsString();
-									 * 
-									 * } } }
-									 */
-							}
-						}
-					}
-				}
-			}
-
-		} else {
-			switch (error.getCode()) {
-			case 201:
-				model.deleteAccountId(username);
-				break;
-			}
-		}
-	}
+                                    JiraWebActionSupport logout = new JiraWebActionSupport();
+                                    HttpSession sesion = logout.getHttpSession();
+                                    try {
+                                        sesion.invalidate();
+                                    } catch (IllegalStateException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            switch (error.getCode()) {
+                case 201:
+                    model.deleteAccountId(username);
+                    break;
+            }
+        }
+    }
 
 }

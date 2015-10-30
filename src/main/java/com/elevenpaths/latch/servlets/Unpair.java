@@ -26,7 +26,6 @@ public class Unpair extends JiraWebActionSupport {
 	private JiraAuthenticationContext jiraAuthenticationContext;
 
 	private final String UNPAIR_ERROR_CONF = "com.elevenpaths.latch.latch-plugin-jira.unpairErrorConf";
-
 	private final String LATCH_INDEX = "/secure/LatchIndex.jspa";
 
 
@@ -63,7 +62,7 @@ public class Unpair extends JiraWebActionSupport {
 		}
 		return SUCCESS;
 	}
-	
+
 	@com.atlassian.jira.security.xsrf.RequiresXsrfCheck
 	private void unpair() {
 		XsrfTokenGenerator xsrfTokenGenerator = ComponentAccessor.getComponentOfType(XsrfTokenGenerator.class);
@@ -73,33 +72,30 @@ public class Unpair extends JiraWebActionSupport {
 		String accountId = modelo.getAccountId(username);
 
 		if (accountId != null) {
-
 			String appId = modelo.getAppId();
 			String secret = modelo.getSecret();
-
 			if (appId != null && secret != null) {
-
 				LatchApp latch = new LatchApp(appId, secret);
 				LatchResponse unpairResponse = null;
 				try {
 					unpairResponse = latch.unpair(accountId);
-				} catch (NullPointerException e) {
+				} catch (NullPointerException ignored) {
 				}
-				JsonObject jObject = unpairResponse.getData();
-
-				if (jObject == null) {
-					modelo.deleteAccountId(username);
-				} else {
-					com.elevenpaths.latch.Error error = unpairResponse.getError();
-					if (error != null) {
-
-						if (error.getCode() == 102) {
-							setError(getError() + i18nResolver.getText(UNPAIR_ERROR_CONF));
+				JsonObject jObject;
+				if (unpairResponse != null) {
+					jObject = unpairResponse.getData();
+					if (jObject != null) {
+						modelo.deleteAccountId(username);
+					} else {
+						com.elevenpaths.latch.Error error = unpairResponse.getError();
+						if (error != null) {
+							if (error.getCode() == 102) {
+								setError(getError() + i18nResolver.getText(UNPAIR_ERROR_CONF));
+							}
 						}
 					}
 				}
 				modelo.deleteAccountId(username);
-
 			} else {
 				setError(getError() + i18nResolver.getText(UNPAIR_ERROR_CONF));
 			}
