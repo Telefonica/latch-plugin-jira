@@ -7,39 +7,34 @@
         <param name="plugin-logo">images/pluginLogo.png</param>
     </plugin-info>
 
-    <!-- add our i18n resource -->
     <resource type="i18n" name="i18n" location="latch-plugin-jira"/>
-    
-    <!-- add our web resources -->
+
     <web-resource key="latch-plugin-jira-resources" name="latch-plugin-jira Web Resources">
         <dependency>com.atlassian.auiplugin:ajs</dependency>
-        <resource type="download" name="css/" location="css/"/>
+
+        <resource name="css/" type="download" location="css/"/>
+
         <resource type="download" name="images/" location="images/"/>
+
         <context>latch-plugin-jira</context>
     </web-resource>
 
     <webwork1 key="newViews" name="Views" class="java.lang.Object">
         <actions>
             <action name="com.elevenpaths.latch.servlets.Admin" alias="LatchConfigure">
-                <view name="success">/templates/com/elevenpaths/latch/servlets/configure.vm</view>
+                <view name="success">/views/configure.vm</view>
             </action>
 
             <action name="com.elevenpaths.latch.servlets.Index" alias="LatchIndex">
-                <view name="success">/templates/com/elevenpaths/latch/servlets/info.vm</view>
+                <view name="success">/views/info.vm</view>
             </action>
 
             <action name="com.elevenpaths.latch.servlets.Pair" alias="LatchPair">
-                <view name="success">/templates/com/elevenpaths/latch/servlets/pair.vm</view>
+                <view name="success">/views/pair.vm</view>
             </action>
 
             <action name="com.elevenpaths.latch.servlets.Unpair" alias="LatchUnpair">
-                <view name="success">/templates/com/elevenpaths/latch/servlets/unpair.vm</view>
-            </action>
-            <action name="com.elevenpaths.latch.servlets.Otp" alias="LatchTwoFactor">
-                <view name="success">/templates/com/elevenpaths/latch/servlets/otp.vm</view>
-            </action>
-            <action name="com.elevenpaths.latch.servlets.Error" alias="LatchError">
-                <view name="success">/templates/com/elevenpaths/latch/servlets/error.vm</view>
+                <view name="success">/views/unpair.vm</view>
             </action>
         </actions>
     </webwork1>

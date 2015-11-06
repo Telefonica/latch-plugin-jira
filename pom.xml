@@ -1,21 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd
+http://maven.apache.org/POM/4.0.0 ">
+
+    <scm>
+        <connection>scm:git:https://github.com/iserranos/latch-plugin-jira</connection>
+        <developerConnection>scm:git:https://github.com/iserranos/latch-plugin-jira</developerConnection>
+        <tag>latch-plugin-jira-1.0</tag>
+        <url>https://github.com/iserranos/latch-plugin-jira</url>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>deployment_snapshot</id>
+            <name>Internal Releases</name>
+            <url>http://maven.11paths.local:8081/nexus/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </distributionManagement>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.elevenpaths.latch</groupId>
     <artifactId>latch-plugin-jira</artifactId>
-    <version>1.0</version>
+    <version>1.0-SNAPSHOT</version>
 
     <organization>
         <name>ElevenPaths</name>
         <url>https://latch.elevenpaths.com/www/index.html</url>
     </organization>
 
-    <name>latch-plugin-jira</name>
-    <description>This is the com.elevenpaths.latch:latch-plugin-jira plugin for Atlassian JIRA.</description>
+    <name>Latch Plugin</name>
+    <description>This is the Latch plugin for Atlassian JIRA.</description>
     <packaging>atlassian-plugin</packaging>
 
     <dependencies>
@@ -25,16 +46,6 @@
             <version>${jira.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Add dependency on jira-core if you want access to JIRA implementation classes as well as the sanctioned API. -->
-        <!-- This is not normally recommended, but may be required eg when migrating a plugin originally developed against JIRA 4.x -->
-        <!--
-        <dependency>
-            <groupId>com.atlassian.jira</groupId>
-            <artifactId>jira-core</artifactId>
-            <version>${jira.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -45,9 +56,8 @@
             <groupId>com.elevenpaths.latch</groupId>
             <artifactId>latch</artifactId>
             <version>1.0.3</version>
+            <scope>compile</scope>
         </dependency>
-
-        <!-- WIRED TEST RUNNER DEPENDENCIES -->
         <dependency>
             <groupId>com.atlassian.plugins</groupId>
             <artifactId>atlassian-plugins-osgi-testrunner</artifactId>
@@ -64,6 +74,7 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.2.2-atlassian-1</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -77,17 +88,6 @@
             <version>1.3.1</version>
             <scope>provided</scope>
         </dependency>
-
-		<!-- Uncomment to use TestKit in your project. Details at https://bitbucket.org/atlassian/jira-testkit -->
-		<!-- You can read more about TestKit at https://developer.atlassian.com/display/JIRADEV/Plugin+Tutorial+-+Smarter+integration+testing+with+TestKit -->
-		<!--
-		<dependency>
-			<groupId>com.atlassian.jira.tests</groupId>
-			<artifactId>jira-testkit-client</artifactId>
-			<version>${testkit.version}</version>
-			<scope>test</scope>
-		</dependency>
-		-->
     </dependencies>
 
     <build>
@@ -98,36 +98,34 @@
                 <version>${amps.version}</version>
                 <extensions>true</extensions>
                 <configuration>
+                    <pluginDependencies>
+                        <pluginDependency>
+                            <groupId>com.elevenpaths.latch</groupId>
+                            <artifactId>latch</artifactId>
+                        </pluginDependency>
+                    </pluginDependencies>
+
                     <productVersion>${jira.version}</productVersion>
                     <productDataVersion>${jira.version}</productDataVersion>
-					<!-- Uncomment to install TestKit backdoor in JIRA. -->
-					<!--
-					<pluginArtifacts>
-						<pluginArtifact>
-							<groupId>com.atlassian.jira.tests</groupId>
-							<artifactId>jira-testkit-plugin</artifactId>
-							<version>${testkit.version}</version>
-						</pluginArtifact>
-					</pluginArtifacts>
-					-->
                 </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
     <properties>
-        <jira.version>6.4.4</jira.version>
-        <amps.version>5.0.13</amps.version>
+        <jira.version>6.4.11</jira.version>
+        <amps.version>5.1.10</amps.version>
         <plugin.testrunner.version>1.2.3</plugin.testrunner.version>
-		<!-- TestKit version 5.x for JIRA 5.x, 6.x for JIRA 6.x -->
-		<testkit.version>5.2.26</testkit.version>
+        <testkit.version>5.2.26</testkit.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
 </project>

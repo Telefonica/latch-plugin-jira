@@ -12,56 +12,51 @@ import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 import com.elevenpaths.latch.modelo.LatchModel;
 import com.elevenpaths.latch.util.Utilities;
 
+public class Index extends JiraWebActionSupport {
 
-public class Index extends JiraWebActionSupport{
-	
 	private static final long serialVersionUID = 1L;
-	
+
 	private HttpServletRequest request;
 	private LatchModel model;
 	private JiraAuthenticationContext jiraAuthenticationContext;
-	
+
 	private final String LATCH_PAIR = "/secure/LatchPair.jspa";
 	private final String LATCH_UNPAIR = "/secure/LatchUnpair.jspa";
 
+
 	/**
-	 * Constructor
-	 * @param pluginSettingsFactory
+	 * Constructor.
+	 * @param pluginSettingsFactory object to save data
 	 */
-	public Index( PluginSettingsFactory pluginSettingsFactory) {
+
+	public Index(PluginSettingsFactory pluginSettingsFactory) {
 		this.request = ServletActionContext.getRequest();
 		this.model = new LatchModel(pluginSettingsFactory);
 		this.jiraAuthenticationContext = ComponentAccessor.getJiraAuthenticationContext();
 	}
 	
-	/**
-	 * check if the user is logged
-	 * then check if the user is paired
-	 * if request method is post, redirect to pair view
-	 */
 	@Override
 	protected void doValidation() {
 		String username = Utilities.getUsername(jiraAuthenticationContext);
-		if(!username.equals("")){
-			if(Utilities.isPaired(username, model)){
+		if (!username.equals("")) {
+			if (Utilities.isPaired(username, model)) {
 				Utilities.redirectTo(LATCH_UNPAIR);
 			}
-		}else{
+		} else {
 			Utilities.redirectToLogin();
 		}
 	}
-	
-	
+
 	@Override
 	protected String doExecute() throws Exception {
-		if(request.getMethod().equals("POST")){
+		if (request.getMethod().equals("POST")) {
 			toPair();
 		}
 		return SUCCESS;
 	}
-	
+
 	@com.atlassian.jira.security.xsrf.RequiresXsrfCheck
-	private void toPair(){
+	private void toPair() {
 		XsrfTokenGenerator xsrfTokenGenerator = ComponentAccessor.getComponentOfType(XsrfTokenGenerator.class);
 		xsrfTokenGenerator.generateToken(request);
 		Utilities.redirectTo(LATCH_PAIR);

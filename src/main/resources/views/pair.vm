@@ -1,0 +1,90 @@
+#htmlSafe()
+$webResourceManager.requireResource("com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources")
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<meta name="decorator" content="atl.general">
+		<title>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTitle")</title>
+		<link rel="stylesheet" type="text/css" href="$req.contextPath/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/css/style.css">
+	</head>
+	<body>
+		<div id="container">
+		
+			<div id="title">
+		    	<h2>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairInput")</h2>
+		    </div>
+
+		    <div id="errorLatch">
+		    	<span>$action.getError()</span>
+		    </div>
+
+			<form class="aui" method="POST">
+				<div class="field-group">
+					<input type="text" id="token" name="token" class="text" placeholder="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmPairInput')">
+	            	<input type="submit" value="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmPairButton')" class="button">
+	        	</div> 
+			</form>
+			
+			<div class="textsLatch">
+		    	<p class="textTitles"><strong>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTitleInfo")</strong></p>
+				<p>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTextInfo1")</p>
+		    </div>
+			
+			<table id="tableDiv-pair">
+		    	<tr>
+			    	<td>
+				    	<div id="image1Pair" class="imagesLatch">
+				    		<div id="foto1" class="photos">
+				    			<img id="img1" class="img" src="$req.contextPath/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/pair_01.png" alt="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg1')" title="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg1')">
+				    		</div>
+				    		<div id="texto1">
+				    			<div class="textsLatch imagesLatch">
+				    				$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTextImg1")
+				    			</div>
+				    		</div>
+				    	</div>
+		    		</td>
+			    	<td>
+			    		<div id="image2" class="imagesLatch">
+				    		<div id="foto2" class="photos">
+				    			<img id="img2" class="img" src="$req.contextPath/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/img2-large.png" alt="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg2')" title="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg2')">
+				    		</div>
+				    		<div id="texto2">
+				    			<div class="textsLatch imagesLatch">
+				    				$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTextImg2")
+				    			</div>
+				    		</div>
+				    	</div>
+			    	</td>
+		    	</tr>
+		    	<tr>
+			    	<td>
+			    		<div id="image3Pair" class="imagesLatch">
+				    		<div id="foto3" class="photos">
+				    			<img id="img3" class="img" src="$req.contextPath/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/how_02.png" alt="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg3')" title="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg3')">
+				    		</div>
+				    		<div id="texto3">
+				    			<div class="textsLatch imagesLatch">
+				    				$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTextImg3")
+				    			</div>
+				    		</div>
+				    	</div>
+			    	</td>
+			    	<td>
+			    		<div id="image4Pair" class="imagesLatch">
+				    		<div id="foto4" class="photos">
+				    			<img id="img4" class="img" src ="$req.contextPath/download/resources/com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources/images/pair_04.png" alt="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg4')" title="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoTitleImg4')">
+				    		</div>
+				    		<div id="texto4">
+				    			<div class="textsLatch imagesLatch">
+				    				$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmPairTextImg4")
+				    			</div>
+				    		</div>
+				    	</div>
+			    	</td>
+		    	</tr>
+		    </table>	
+			
+		</div>
+	</body>
+</html>
