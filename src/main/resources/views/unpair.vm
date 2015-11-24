@@ -25,6 +25,7 @@ $webResourceManager.requireResource("com.elevenpaths.latch.latch-plugin-jira:lat
 		
 			<form class="aui" method="POST">
 	        	<div class="field-group">
+                    <input type="hidden" name="atl_token" value="$atl_token" />
 	            	<input type="submit" name="button" value="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmUnpairButton')" class="button">
 	       		</div>
 	    	</form>

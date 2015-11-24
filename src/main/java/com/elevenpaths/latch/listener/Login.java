@@ -7,7 +7,14 @@ import com.atlassian.event.api.EventListener;
 import com.atlassian.event.api.EventPublisher;
 import com.atlassian.jira.event.user.UserEvent;
 import com.atlassian.jira.event.user.UserEventType;
+import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
+import com.atlassian.plugin.Plugin;
+import com.atlassian.plugin.event.PluginEventListener;
+import com.atlassian.plugin.event.PluginEventManager;
+import com.atlassian.plugin.event.events.PluginEvent;
+import com.atlassian.plugin.event.events.PluginUninstalledEvent;
+import com.atlassian.plugin.event.events.PluginUninstallingEvent;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 import com.elevenpaths.latch.LatchApp;
 import com.elevenpaths.latch.LatchResponse;
@@ -21,6 +28,7 @@ import org.springframework.beans.factory.InitializingBean;
 public class Login implements InitializingBean, DisposableBean {
 
     private EventPublisher eventPublisher;
+    private PluginEventManager myPluginEventManager;
     private LatchModel model;
 
     /**
@@ -41,6 +49,7 @@ public class Login implements InitializingBean, DisposableBean {
      */
     @Override
     public void afterPropertiesSet() throws Exception {
+        model.initialize();
         eventPublisher.register(this);
     }
 
@@ -60,12 +69,13 @@ public class Login implements InitializingBean, DisposableBean {
 
         switch (eventType) {
             case UserEventType.USER_LOGIN:
-                User user = userEvent.getUser();
                 String username;
-                if (user != null) {
+                if (Utilities.getJiraVersion() >= 7) {
+                    ApplicationUser user = userEvent.getUser();
                     username = user.getName();
                 } else {
-                    return;
+                    User user = (User) userEvent.getUser();
+                    username = user.getName();
                 }
 
                 if (!Utilities.isPaired(username, model)) {
@@ -77,6 +87,13 @@ public class Login implements InitializingBean, DisposableBean {
                 Utilities.redirectTo("");
                 break;
         }
+    }
+
+    @PluginEventListener
+    public void onPluginUninstallingEvent(PluginUninstallingEvent pluginEvent) {
+        model.deleteAppId();
+        model.deleteSecret();
+        model.deleteUsers();
     }
 
     /**

@@ -18,7 +18,6 @@ import com.google.gson.JsonObject;
 
 public class Unpair extends JiraWebActionSupport {
 
-	private static final long serialVersionUID = 1L;
 	private final LatchModel modelo;
 	private HttpServletRequest request;
 	private String error;
@@ -26,6 +25,7 @@ public class Unpair extends JiraWebActionSupport {
 	private JiraAuthenticationContext jiraAuthenticationContext;
 
 	private final String UNPAIR_ERROR_CONF = "com.elevenpaths.latch.latch-plugin-jira.unpairErrorConf";
+	private final String CSRF_ERROR = "com.elevenpaths.latch.latch-plugin-jira.xsrfError";
 	private final String LATCH_INDEX = "/secure/LatchIndex.jspa";
 
 
@@ -58,53 +58,52 @@ public class Unpair extends JiraWebActionSupport {
 	@Override
 	protected String doExecute() throws Exception {
 		if (request.getMethod().equals("POST")) {
-			unpair();
+			XsrfTokenGenerator xsrfTokenGenerator = ComponentAccessor.getComponentOfType(XsrfTokenGenerator.class);
+			String token = request.getParameter(XsrfTokenGenerator.TOKEN_WEB_PARAMETER_KEY) != null ? request.getParameter(XsrfTokenGenerator.TOKEN_WEB_PARAMETER_KEY) : "";
+
+			if (xsrfTokenGenerator.validateToken(request, token)) {
+				String username = Utilities.getUsername(jiraAuthenticationContext);
+				String accountId = modelo.getAccountId(username);
+
+				if (accountId != null) {
+					String appId = modelo.getAppId();
+					String secret = modelo.getSecret();
+					if (appId != null && secret != null) {
+						LatchApp latch = new LatchApp(appId, secret);
+						LatchResponse unpairResponse = null;
+						try {
+							unpairResponse = latch.unpair(accountId);
+						} catch (NullPointerException ignored) {
+						}
+						JsonObject jObject;
+						if (unpairResponse != null) {
+							jObject = unpairResponse.getData();
+							if (jObject != null) {
+								modelo.deleteAccountId(username);
+							} else {
+								com.elevenpaths.latch.Error error = unpairResponse.getError();
+								if (error != null) {
+									if (error.getCode() == 102) {
+										setError(getError() + i18nResolver.getText(UNPAIR_ERROR_CONF));
+									}
+								}
+							}
+						}
+						modelo.deleteAccountId(username);
+					} else {
+						setError(getError() + i18nResolver.getText(UNPAIR_ERROR_CONF));
+					}
+				}
+				Utilities.redirectTo(LATCH_INDEX);
+            }else {
+				setError(getError() + i18nResolver.getText(CSRF_ERROR));
+			}
 		}
 		return SUCCESS;
 	}
 
-	@com.atlassian.jira.security.xsrf.RequiresXsrfCheck
-	private void unpair() {
-		XsrfTokenGenerator xsrfTokenGenerator = ComponentAccessor.getComponentOfType(XsrfTokenGenerator.class);
-		xsrfTokenGenerator.generateToken(request);
-
-		String username = Utilities.getUsername(jiraAuthenticationContext);
-		String accountId = modelo.getAccountId(username);
-
-		if (accountId != null) {
-			String appId = modelo.getAppId();
-			String secret = modelo.getSecret();
-			if (appId != null && secret != null) {
-				LatchApp latch = new LatchApp(appId, secret);
-				LatchResponse unpairResponse = null;
-				try {
-					unpairResponse = latch.unpair(accountId);
-				} catch (NullPointerException ignored) {
-				}
-				JsonObject jObject;
-				if (unpairResponse != null) {
-					jObject = unpairResponse.getData();
-					if (jObject != null) {
-						modelo.deleteAccountId(username);
-					} else {
-						com.elevenpaths.latch.Error error = unpairResponse.getError();
-						if (error != null) {
-							if (error.getCode() == 102) {
-								setError(getError() + i18nResolver.getText(UNPAIR_ERROR_CONF));
-							}
-						}
-					}
-				}
-				modelo.deleteAccountId(username);
-			} else {
-				setError(getError() + i18nResolver.getText(UNPAIR_ERROR_CONF));
-			}
-		}
-		Utilities.redirectTo(LATCH_INDEX);
-	}
-
 	public String getError() {
-		return this.error;
+		return this.error.length() == 0 ? "" : this.error;
 	}
 
 	public void setError(String error) {
