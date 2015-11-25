@@ -7,7 +7,10 @@ import com.atlassian.event.api.EventListener;
 import com.atlassian.event.api.EventPublisher;
 import com.atlassian.jira.event.user.UserEvent;
 import com.atlassian.jira.event.user.UserEventType;
+import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
+import com.atlassian.plugin.event.PluginEventListener;
+import com.atlassian.plugin.event.events.*;
 import com.atlassian.sal.api.pluginsettings.PluginSettingsFactory;
 import com.elevenpaths.latch.LatchApp;
 import com.elevenpaths.latch.LatchResponse;
@@ -41,6 +44,7 @@ public class Login implements InitializingBean, DisposableBean {
      */
     @Override
     public void afterPropertiesSet() throws Exception {
+        model.initialize();
         eventPublisher.register(this);
     }
 
@@ -54,19 +58,33 @@ public class Login implements InitializingBean, DisposableBean {
         eventPublisher.unregister(this);
     }
 
+    /**
+     * Called when the plugin has been installed.
+     */
+    @PluginEventListener
+    public void onPluginInstallingEvent(PluginInstalledEvent pluginEvent) {
+        model.initialize();
+    }
+
+    /**
+     * Called when the plugin is being uninstalled.
+     */
+    @PluginEventListener
+    public void onPluginUninstallingEvent(PluginUninstallingEvent pluginEvent) {
+        model.deleteAppId();
+        model.deleteSecret();
+        model.deleteUsers();
+    }
+
     @EventListener
     public void onUserEvent(UserEvent userEvent) {
         int eventType = userEvent.getEventType();
 
         switch (eventType) {
             case UserEventType.USER_LOGIN:
-                User user = userEvent.getUser();
                 String username;
-                if (user != null) {
-                    username = user.getName();
-                } else {
-                    return;
-                }
+                ApplicationUser user = userEvent.getUser();
+                username = user.getName();
 
                 if (!Utilities.isPaired(username, model)) {
                     return;

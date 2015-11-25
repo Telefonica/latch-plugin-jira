@@ -79,7 +79,7 @@ http://maven.apache.org/POM/4.0.0 ">
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>2.5.6.SEC02</version>
+            <version>2.5</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -121,7 +121,7 @@ http://maven.apache.org/POM/4.0.0 ">
     </build>
 
     <properties>
-        <jira.version>6.4.11</jira.version>
+        <jira.version>7.0.0</jira.version>
         <amps.version>5.1.10</amps.version>
         <plugin.testrunner.version>1.2.3</plugin.testrunner.version>
         <testkit.version>5.2.26</testkit.version>
