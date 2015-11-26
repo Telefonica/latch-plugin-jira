@@ -19,6 +19,7 @@ public class Utilities {
      * @return if is paired or not
      */
     public static boolean isPaired(String username, LatchModel model) {
+        System.out.println(model.getAccountId(username));
         return model.getAccountId(username) != null;
     }
 

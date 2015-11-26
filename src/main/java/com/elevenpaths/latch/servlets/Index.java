@@ -44,6 +44,7 @@ public class Index extends JiraWebActionSupport {
     protected void doValidation() {
         this.error = "";
         String username = Utilities.getUsername(jiraAuthenticationContext);
+        System.out.println(username);
         if (!username.equals("")) {
             if (Utilities.isPaired(username, model)) {
                 Utilities.redirectTo(LATCH_UNPAIR);

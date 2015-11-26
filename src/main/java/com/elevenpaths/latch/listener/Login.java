@@ -2,7 +2,6 @@ package com.elevenpaths.latch.listener;
 
 import javax.servlet.http.HttpSession;
 
-import com.atlassian.crowd.embedded.api.User;
 import com.atlassian.event.api.EventListener;
 import com.atlassian.event.api.EventPublisher;
 import com.atlassian.jira.event.user.UserEvent;
@@ -44,7 +43,6 @@ public class Login implements InitializingBean, DisposableBean {
      */
     @Override
     public void afterPropertiesSet() throws Exception {
-        model.initialize();
         eventPublisher.register(this);
     }
 
@@ -56,14 +54,6 @@ public class Login implements InitializingBean, DisposableBean {
     @Override
     public void destroy() throws Exception {
         eventPublisher.unregister(this);
-    }
-
-    /**
-     * Called when the plugin has been installed.
-     */
-    @PluginEventListener
-    public void onPluginInstallingEvent(PluginInstalledEvent pluginEvent) {
-        model.initialize();
     }
 
     /**

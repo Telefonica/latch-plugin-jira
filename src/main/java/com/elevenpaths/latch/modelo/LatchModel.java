@@ -23,10 +23,6 @@ public class LatchModel {
 
     // USER
 
-    public void initialize() {
-        pluginSettings.put(PLUGIN_STORAGE_USERS_COUNT, "0");
-    }
-
     public int getNumUsers() {
         String users = (String) pluginSettings.get(PLUGIN_STORAGE_USERS_COUNT);
         return (users == null) ? 0 : Integer.parseInt(users);
