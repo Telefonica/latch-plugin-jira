@@ -2,6 +2,7 @@ package com.elevenpaths.latch.servlets;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.atlassian.sal.api.message.I18nResolver;
 import webwork.action.ServletActionContext;
 
 import com.atlassian.jira.component.ComponentAccessor;
@@ -14,52 +15,65 @@ import com.elevenpaths.latch.util.Utilities;
 
 public class Index extends JiraWebActionSupport {
 
-	private static final long serialVersionUID = 1L;
+    private HttpServletRequest request;
+    private LatchModel model;
+    private String error;
+    private I18nResolver i18nResolver;
+    private JiraAuthenticationContext jiraAuthenticationContext;
 
-	private HttpServletRequest request;
-	private LatchModel model;
-	private JiraAuthenticationContext jiraAuthenticationContext;
+    private final String CSRF_ERROR = "com.elevenpaths.latch.latch-plugin-jira.xsrfError";
 
-	private final String LATCH_PAIR = "/secure/LatchPair.jspa";
-	private final String LATCH_UNPAIR = "/secure/LatchUnpair.jspa";
+    private final String LATCH_PAIR = "/secure/LatchPair.jspa";
+    private final String LATCH_UNPAIR = "/secure/LatchUnpair.jspa";
 
 
-	/**
-	 * Constructor.
-	 * @param pluginSettingsFactory object to save data
-	 */
+    /**
+     * Constructor.
+     *
+     * @param pluginSettingsFactory object to save data
+     */
 
-	public Index(PluginSettingsFactory pluginSettingsFactory) {
-		this.request = ServletActionContext.getRequest();
-		this.model = new LatchModel(pluginSettingsFactory);
-		this.jiraAuthenticationContext = ComponentAccessor.getJiraAuthenticationContext();
-	}
-	
-	@Override
-	protected void doValidation() {
-		String username = Utilities.getUsername(jiraAuthenticationContext);
-		if (!username.equals("")) {
-			if (Utilities.isPaired(username, model)) {
-				Utilities.redirectTo(LATCH_UNPAIR);
-			}
-		} else {
-			Utilities.redirectToLogin();
-		}
-	}
+    public Index(PluginSettingsFactory pluginSettingsFactory, I18nResolver i18nResolver) {
+        this.request = ServletActionContext.getRequest();
+        this.i18nResolver = i18nResolver;
+        this.model = new LatchModel(pluginSettingsFactory);
+        this.jiraAuthenticationContext = ComponentAccessor.getJiraAuthenticationContext();
+    }
 
-	@Override
-	protected String doExecute() throws Exception {
-		if (request.getMethod().equals("POST")) {
-			toPair();
-		}
-		return SUCCESS;
-	}
+    @Override
+    protected void doValidation() {
+        this.error = "";
+        String username = Utilities.getUsername(jiraAuthenticationContext);
+        System.out.println(username);
+        if (!username.equals("")) {
+            if (Utilities.isPaired(username, model)) {
+                Utilities.redirectTo(LATCH_UNPAIR);
+            }
+        } else {
+            Utilities.redirectToLogin();
+        }
+    }
 
-	@com.atlassian.jira.security.xsrf.RequiresXsrfCheck
-	private void toPair() {
-		XsrfTokenGenerator xsrfTokenGenerator = ComponentAccessor.getComponentOfType(XsrfTokenGenerator.class);
-		xsrfTokenGenerator.generateToken(request);
-		Utilities.redirectTo(LATCH_PAIR);
-	}
+    @Override
+    protected String doExecute() throws Exception {
+        if (request.getMethod().equals("POST")) {
+            XsrfTokenGenerator xsrfTokenGenerator = ComponentAccessor.getComponentOfType(XsrfTokenGenerator.class);
+            String token = request.getParameter(XsrfTokenGenerator.TOKEN_WEB_PARAMETER_KEY) != null ? request.getParameter(XsrfTokenGenerator.TOKEN_WEB_PARAMETER_KEY) : "";
 
+            if (xsrfTokenGenerator.validateToken(request, token)) {
+                Utilities.redirectTo(LATCH_PAIR);
+            } else {
+                setError(getError() + i18nResolver.getText(CSRF_ERROR));
+            }
+        }
+        return SUCCESS;
+    }
+
+    public String getError() {
+        return this.error.length() == 0 ? "" : this.error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 }

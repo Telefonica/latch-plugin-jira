@@ -21,6 +21,13 @@
 .textTitles{
 	font-size: 1em;
 }
+#messageLatch{
+	color: green;
+	font-style: bold;
+	margin-top: 35px;
+	margin-bottom: 35px;
+	font-size: 16px;
+}
 #errorLatch{
 	color: red;
 	font-style: bold;
