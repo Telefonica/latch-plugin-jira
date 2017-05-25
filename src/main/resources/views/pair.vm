@@ -1,6 +1,5 @@
 #htmlSafe()
 $webResourceManager.requireResource("com.elevenpaths.latch.latch-plugin-jira:latch-plugin-jira-resources")
-<!DOCTYPE HTML SYSTEM>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -21,7 +20,6 @@ $webResourceManager.requireResource("com.elevenpaths.latch.latch-plugin-jira:lat
 
 			<form class="aui" method="POST">
 				<div class="field-group">
-					<input type="hidden" name="atl_token" value="$atl_token" />
 					<input type="text" id="token" name="token" class="text" placeholder="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmPairInput')">
 	            	<input type="submit" value="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmPairButton')" class="button">
 	        	</div> 
