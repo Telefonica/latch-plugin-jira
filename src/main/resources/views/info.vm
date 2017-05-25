@@ -11,16 +11,11 @@ $webResourceManager.requireResource("com.elevenpaths.latch.latch-plugin-jira:lat
 <body>
 	<div id="container">
 	
-		<div id="title">
+		<div>
 	    	<h2>$i18n.getText("com.elevenpaths.latch.latch-plugin-jira.vmInfoNotProtected")</h2>
 	    </div>
-
-	    <div id="errorLatch">
-		    	<span>$action.getError()</span>
-		    </div>
 	    
 	    <form method="POST" action="">
-	    	<input type="hidden" name="atl_token" value="$atl_token" />
 	    	<input type="submit" value="$i18n.getText('com.elevenpaths.latch.latch-plugin-jira.vmInfoButton')" id="buttonToPair">
 	    </form>
 	    
